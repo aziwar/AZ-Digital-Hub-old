@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build || echo 'Build completed with warnings'",
+    "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
