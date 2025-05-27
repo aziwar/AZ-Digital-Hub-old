@@ -1,5 +1,4 @@
-const bundleAnalyzer = require('@next/bundle-analyzer');
-const withBundleAnalyzer = bundleAnalyzer({
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
@@ -8,6 +7,17 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   poweredByHeader: false,
+  output: 'standalone',
+  experimental: {
+    appDir: true,
+    optimizePackageImports: [
+      '@heroicons/react',
+      'framer-motion',
+      'lucide-react',
+    ],
+    optimizeCss: true,
+    scrollRestoration: true,
+  },
   
   // Image optimization
   images: {
