@@ -7,7 +7,7 @@ import { FaLinkedin, FaEnvelope, FaPhone, FaGithub } from 'react-icons/fa'
 import dynamic from 'next/dynamic'
 
 // Dynamic imports for performance
-const TypeAnimation = dynamic(() => import('@/components/ui/TypeAnimation'), {
+const TypeAnimation = dynamic(() => import('@/components/ui/TypeAnimationFramer'), {
   ssr: false,
   loading: () => <div className="h-8" />
 })

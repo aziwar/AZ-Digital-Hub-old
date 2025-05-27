@@ -69,6 +69,16 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+5. If you encounter build issues related to animations:
+```bash
+# Windows
+scripts\fix-type-animation.bat
+
+# Linux/Mac
+chmod +x scripts/fix-type-animation.sh
+./scripts/fix-type-animation.sh
+```
+
 ## 🏗 Project Structure
 
 ```
@@ -149,6 +159,12 @@ DATABASE_URL=your-database-url
 3. **Font Optimization**: Variable fonts with font-display: swap
 4. **CSS Optimization**: Tailwind CSS with PurgeCSS
 5. **Caching Strategy**: Proper cache headers and ISR
+6. **Custom Animations**: Using Framer Motion instead of external animation libraries
+
+### Context7 Optimizations
+- **TypeAnimation**: Using custom Framer Motion implementation instead of external library
+- **Bundle Size**: Reduced by utilizing existing dependencies
+- **Build Process**: Enhanced with automatic dependency validation
 
 ## 🤝 Contributing
 

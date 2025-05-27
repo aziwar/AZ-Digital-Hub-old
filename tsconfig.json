@@ -1,9 +1,10 @@
 {
+  "extends": "./tsconfig.node.json",
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -23,6 +24,7 @@
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
+    "types": ["node"],
     "plugins": [
       {
         "name": "next"
