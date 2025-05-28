@@ -11,7 +11,6 @@ interface TypeAnimationProps {
   speed?: number
   deletionSpeed?: number
   cursor?: boolean
-  repeat?: number | typeof Infinity
   omitDeletionAnimation?: boolean
   preRenderFirstString?: boolean
 }
@@ -28,7 +27,6 @@ export default function TypeAnimation({
   speed = 50,
   deletionSpeed = 30,
   cursor = true,
-  repeat = Infinity,
   omitDeletionAnimation = false,
   preRenderFirstString = false
 }: TypeAnimationProps) {
@@ -126,7 +124,7 @@ export function FastTypeAnimation({
 }: { 
   sequence: string[]
   className?: string
-  style?: React.CSSProperties 
+  style?: React.CSSProperties
 }) {
   const [index, setIndex] = useState(0)
 
@@ -141,12 +139,13 @@ export function FastTypeAnimation({
   return (
     <AnimatePresence mode="wait">
       <motion.span
-        key={sequence[index]}
+        key={index}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.5 }}
         className={className}
+        // @ts-ignore - Framer Motion's style prop is compatible with React.CSSProperties
         style={style}
       >
         {sequence[index]}
