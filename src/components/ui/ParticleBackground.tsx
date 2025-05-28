@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 
 interface Particle {
   x: number
@@ -49,7 +48,7 @@ export default function ParticleBackground() {
       vy: (Math.random() - 0.5) * 0.5,
       size: Math.random() * 2 + 1,
       opacity: Math.random() * 0.5 + 0.2,
-      color: colors[Math.floor(Math.random() * colors.length)]
+      color: colors[Math.floor(Math.random() * colors.length)] || '#a855f7'
     }))
     
     // Animation loop

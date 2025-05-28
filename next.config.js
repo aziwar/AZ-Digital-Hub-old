@@ -9,7 +9,6 @@ const nextConfig = {
   poweredByHeader: false,
   output: 'standalone',
   experimental: {
-    appDir: true,
     optimizePackageImports: [
       '@heroicons/react',
       'framer-motion',
@@ -42,17 +41,6 @@ const nextConfig = {
     SITE_URL: process.env.SITE_URL || 'https://ahmedziwar.com',
     SITE_NAME: 'AZ Digital Hub',
     SITE_DESCRIPTION: 'Ahmed Ziwar - Digital Marketing Manager & IT Consultant',
-  },
-
-  // Experimental features
-  experimental: {
-    optimizePackageImports: [
-      '@heroicons/react',
-      'framer-motion',
-      'lucide-react',
-    ],
-    optimizeCss: true,
-    scrollRestoration: true,
   },
 
   // Webpack configuration
