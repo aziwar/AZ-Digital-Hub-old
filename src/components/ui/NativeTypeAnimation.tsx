@@ -36,10 +36,16 @@ export default function NativeTypeAnimation({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isWaiting, setIsWaiting] = useState(false)
+  const [loopCount, setLoopCount] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     if (sequence.length === 0) return
+
+    // Check if we've reached the repeat limit
+    if (repeat !== Infinity && loopCount >= repeat) {
+      return
+    }
 
     const currentString = sequence[currentIndex] || ''
 
@@ -60,7 +66,11 @@ export default function NativeTypeAnimation({
               setIsDeleting(true)
             } else {
               // Skip to next string
-              setCurrentIndex((prev) => (prev + 1) % sequence.length)
+              const nextIndex = (currentIndex + 1) % sequence.length
+              setCurrentIndex(nextIndex)
+              if (nextIndex === 0) {
+                setLoopCount(prev => prev + 1)
+              }
               setDisplayText('')
             }
             typeNextChar()
@@ -74,7 +84,11 @@ export default function NativeTypeAnimation({
         } else {
           // Finished deleting, move to next
           setIsDeleting(false)
-          setCurrentIndex((prev) => (prev + 1) % sequence.length)
+          const nextIndex = (currentIndex + 1) % sequence.length
+          setCurrentIndex(nextIndex)
+          if (nextIndex === 0) {
+            setLoopCount(prev => prev + 1)
+          }
           timeoutRef.current = setTimeout(typeNextChar, 100)
         }
       }
@@ -87,7 +101,7 @@ export default function NativeTypeAnimation({
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [sequence, currentIndex, displayText, isDeleting, isWaiting, speed, deletionSpeed, omitDeletionAnimation])
+  }, [sequence, currentIndex, displayText, isDeleting, isWaiting, speed, deletionSpeed, omitDeletionAnimation, repeat, loopCount])
 
   const Component = wrapper
 
