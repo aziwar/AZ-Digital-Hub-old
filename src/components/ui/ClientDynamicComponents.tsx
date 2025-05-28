@@ -5,8 +5,9 @@ interface ClientDynamicComponentsProps {
 }
 
 export default function ClientDynamicComponents({ 
-  showPerformanceMetrics = false 
+  showPerformanceMetrics: _showPerformanceMetrics = false 
 }: ClientDynamicComponentsProps) {
-  // Component implementation can use showPerformanceMetrics prop here
+  // TODO: Implement performance metrics display when needed
+  // The underscore prefix tells TypeScript this parameter is intentionally unused
   return null;
 }

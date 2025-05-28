@@ -3,25 +3,47 @@
 import type { CSSProperties } from 'react';
 import { TypeAnimation as ReactTypeAnimation } from 'react-type-animation';
 
-// Simple wrapper for the TypeAnimation component
-export default function TypeAnimation(props: {
+type Wrapper = 'p' | 'span' | 'strong' | 'em' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'b' | 'i';
+
+interface TypeAnimationProps {
   className?: string;
   style?: CSSProperties;
   sequence: (string | number)[];
-  [key: string]: unknown;
-}) {
+  wrapper?: Wrapper;
+  speed?: number | { type: 'keyStrokeDelayInMs'; value: number };
+  deletionSpeed?: number | { type: 'keyStrokeDelayInMs'; value: number };
+  cursor?: boolean;
+  repeat?: number;
+  omitDeletionAnimation?: boolean;
+  preRenderFirstString?: boolean;
+}
+
+// Simple wrapper for the TypeAnimation component
+export default function TypeAnimation(props: TypeAnimationProps) {
+  const {
+    className,
+    style,
+    sequence,
+    wrapper = 'span',
+    speed = 50,
+    deletionSpeed = 30,
+    cursor = true,
+    repeat = Infinity,
+    omitDeletionAnimation = false,
+    preRenderFirstString = false,
+  } = props;
+
   return (
-    <div className={props.className} style={props.style}>
-      {/* @ts-expect-error - Suppressing type errors for the library component */}
+    <div className={className} style={style}>
       <ReactTypeAnimation
-        sequence={props.sequence}
-        wrapper={props.wrapper || 'span'}
-        speed={props.speed || 50}
-        deletionSpeed={props.deletionSpeed || 30}
-        cursor={props.cursor !== false}
-        repeat={props.repeat || Infinity}
-        omitDeletionAnimation={props.omitDeletionAnimation || false}
-        preRenderFirstString={props.preRenderFirstString || false}
+        sequence={sequence}
+        wrapper={wrapper}
+        speed={speed}
+        deletionSpeed={deletionSpeed}
+        cursor={cursor}
+        repeat={repeat}
+        omitDeletionAnimation={omitDeletionAnimation}
+        preRenderFirstString={preRenderFirstString}
       />
     </div>
   );
