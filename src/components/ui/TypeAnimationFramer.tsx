@@ -13,6 +13,7 @@ interface TypeAnimationProps {
   cursor?: boolean
   omitDeletionAnimation?: boolean
   preRenderFirstString?: boolean
+  // No repeat prop - removed to fix build error
 }
 
 /**
