@@ -19,9 +19,9 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...(defaultTheme.fontFamily?.sans || [])],
-        heading: ['var(--font-heading)', ...(defaultTheme.fontFamily?.sans || [])],
-        mono: ['var(--font-mono)', ...(defaultTheme.fontFamily?.mono || [])],
+        sans: [...(defaultTheme.fontFamily?.sans || [])],
+        heading: [...(defaultTheme.fontFamily?.sans || [])],
+        mono: [...(defaultTheme.fontFamily?.mono || [])],
       },
       colors: {
         border: 'hsl(var(--border) / <alpha-value>)',

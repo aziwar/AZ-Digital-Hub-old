@@ -60,7 +60,7 @@ const Contact: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Let's discuss how I can help transform your digital presence and drive business growth
+            Let&apos;s discuss how I can help transform your digital presence and drive business growth
           </p>
         </div>
 
