@@ -1,27 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const schema = {
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email'),
+    subject: z.string().min(1, 'Subject is required'),
+    message: z.string().min(1, 'Message is required'),
+  } as const;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+  type FormData = z.infer<typeof schema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    reset,
+  } = useForm<FormData>({ resolver: zodResolver(z.object(schema)) });
+
+  const onSubmit = async (data: FormData) => {
+    await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // You can add email sending logic here
+    reset();
   };
 
   const contactInfo = [
@@ -60,7 +67,7 @@ const Contact: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Let's discuss how I can help transform your digital presence and drive business growth
+            Let&apos;s discuss how I can help transform your digital presence and drive business growth
           </p>
         </div>
 
@@ -68,38 +75,46 @@ const Contact: React.FC = () => {
           {/* Contact Form */}
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-8">
             <h3 className="text-2xl font-semibold text-white mb-6">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                     Your Name
                   </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
-                    placeholder="John Doe"
-                  />
-                </div>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  {...register('name')}
+                  required
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="John Doe"
+                />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500" role="alert">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                     Your Email
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
-                    placeholder="john@example.com"
-                  />
-                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  {...register('email')}
+                  required
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="john@example.com"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500" role="alert">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
               </div>
               
               <div>
@@ -110,12 +125,16 @@ const Contact: React.FC = () => {
                   type="text"
                   id="subject"
                   name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
+                  {...register('subject')}
                   required
                   className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Project Inquiry"
                 />
+                {errors.subject && (
+                  <p className="mt-1 text-sm text-red-500" role="alert">
+                    {errors.subject.message}
+                  </p>
+                )}
               </div>
               
               <div>
@@ -125,13 +144,17 @@ const Contact: React.FC = () => {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
+                  {...register('message')}
                   required
                   rows={5}
                   className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-500" role="alert">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
               
               <button
@@ -140,6 +163,11 @@ const Contact: React.FC = () => {
               >
                 Send Message
               </button>
+              {isSubmitSuccessful && (
+                <p className="mt-4 text-green-500" role="status">
+                  Message sent successfully!
+                </p>
+              )}
             </form>
           </div>
 

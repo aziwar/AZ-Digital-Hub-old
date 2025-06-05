@@ -58,6 +58,8 @@ pnpm install
 cp .env.example .env.local
 ```
 
+The site uses the system's Inter font. No Google Fonts download is required.
+
 4. Run the development server:
 ```bash
 npm run dev
@@ -69,7 +71,14 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-5. If you encounter build issues related to animations:
+5. Run tests and linting:
+```bash
+npm test
+npm run lint
+npm run type-check
+```
+
+6. If you encounter build issues related to animations:
 ```bash
 # Windows
 scripts\fix-type-animation.bat
