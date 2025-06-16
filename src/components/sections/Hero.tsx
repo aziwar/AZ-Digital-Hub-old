@@ -50,19 +50,19 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Commander Action CTAs */}
+        {/* Commander Action CTAs - FIXED LINKS */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
           <Link
-            href="#results"
+            href="#portfolio"
             className="px-10 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 border border-purple-500"
           >
-            Demand Results →
+            View Results →
           </Link>
           <Link
-            href="#strategy"
+            href="#services"
             className="px-10 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-lg border border-purple-400/30 transition-all duration-200 transform hover:scale-105"
           >
-            Strategic Consultation
+            Strategic Services
           </Link>
         </div>
 
