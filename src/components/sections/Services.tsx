@@ -1,96 +1,127 @@
+// ENTJ Commander Services - Strategic Leadership Solutions
 import React from 'react';
 
 const Services: React.FC = () => {
   const services = [
     {
-      icon: "📊",
-      title: "Digital Marketing Strategy",
-      description: "Comprehensive digital marketing plans tailored to your business goals with focus on ROI and growth.",
-      features: ["Market Analysis", "Campaign Planning", "KPI Setting", "Performance Tracking"]
+      icon: "⚡",
+      title: "Strategic Digital Transformation",
+      description: "End-to-end digital strategy that delivers measurable ROI. From vision to execution, I orchestrate complete business transformation.",
+      results: "300% avg revenue increase",
+      features: ["Executive Strategy Sessions", "Digital Roadmap Creation", "KPI Framework Design", "Performance Optimization"]
     },
     {
-      icon: "🛒",
-      title: "E-commerce Solutions",
-      description: "End-to-end e-commerce management from platform selection to optimization and growth strategies.",
-      features: ["Platform Setup", "Product Management", "Conversion Optimization", "Sales Analytics"]
+      icon: "🎯",
+      title: "E-commerce Command & Control",
+      description: "Complete e-commerce ecosystem management. Platform optimization, funnel engineering, and conversion maximization for sustained growth.",
+      results: "150% conversion improvement",
+      features: ["Platform Architecture", "KNET Payment Integration", "Conversion Rate Optimization", "Sales Performance Analytics"]
     },
     {
-      icon: "📱",
-      title: "Social Media Marketing",
-      description: "Strategic social media management to build brand awareness and drive meaningful engagement.",
-      features: ["Content Strategy", "Community Management", "Paid Advertising", "Analytics & Reporting"]
-    },
-    {
-      icon: "🔍",
-      title: "SEO & SEM",
-      description: "Search engine optimization and marketing to improve visibility and drive qualified traffic.",
-      features: ["Keyword Research", "On-page SEO", "PPC Campaigns", "Performance Monitoring"]
+      icon: "🚀",
+      title: "Kuwait Market Leadership",
+      description: "Dominate the GCC digital landscape with culturally-aware campaigns that resonate with local markets while driving international reach.",
+      results: "GCC market penetration",
+      features: ["Arabic/English Campaigns", "Ramadan Strategy Planning", "Local SEO Mastery", "Regional Social Influence"]
     },
     {
       icon: "💼",
-      title: "IT Consulting",
-      description: "Technology consulting to streamline operations and implement digital transformation.",
-      features: ["System Analysis", "Solution Design", "Implementation", "Training & Support"]
+      title: "Enterprise IT Consulting",
+      description: "Technology transformation that aligns with business objectives. Strategic IT solutions that enhance operational efficiency and competitive advantage.",
+      results: "40% efficiency gains",
+      features: ["Infrastructure Assessment", "Digital Process Optimization", "Team Training & Development", "Technology Stack Modernization"]
     },
     {
-      icon: "📈",
-      title: "Analytics & Reporting",
-      description: "Data-driven insights and comprehensive reporting to measure and improve performance.",
-      features: ["Data Analysis", "Custom Dashboards", "ROI Tracking", "Strategic Recommendations"]
+      icon: "📊",
+      title: "Data-Driven Decision Making",
+      description: "Transform raw data into strategic insights. Advanced analytics frameworks that drive informed decisions and sustainable competitive advantage.",
+      results: "Real-time intelligence",
+      features: ["Performance Dashboard Creation", "ROI Tracking Systems", "Predictive Analytics", "Strategic Reporting Automation"]
+    },
+    {
+      icon: "⭐",
+      title: "Executive Leadership Coaching",
+      description: "Develop your team's strategic thinking capabilities. Leadership development focused on results-driven execution and organizational excellence.",
+      results: "Team performance boost",
+      features: ["Leadership Strategy Sessions", "Process Optimization Training", "Goal Achievement Systems", "Performance Management"]
     }
   ];
 
   return (
-    <section id="services" className="py-20 px-4 bg-slate-900/50">
+    <section id="services" className="py-24 px-4 bg-gradient-to-b from-slate-900 to-purple-900/20">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Services
+        
+        {/* Commander Leadership Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center space-x-3 bg-purple-600/20 backdrop-blur border border-purple-400/30 rounded-full px-6 py-3 mb-6">
+            <span className="text-purple-300 font-bold">Strategic Solutions • Proven Results</span>
+          </div>
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Command Excellence
           </h2>
-          <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Comprehensive digital solutions to transform your business and drive measurable results
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Strategic digital leadership that transforms vision into measurable results. 
+            <span className="text-purple-400 font-semibold"> No compromise on performance.</span>
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Strategic Services Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-16">
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-6 hover:bg-slate-800/70 hover:border-blue-600/50 transition-all duration-300 group"
+              className="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-xl p-8 hover:bg-slate-800/60 hover:border-purple-500/50 transition-all duration-300 group"
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-gray-400 mb-4">
-                {service.description}
-              </p>
-              <ul className="space-y-2">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center text-sm text-gray-300">
-                    <svg className="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-start space-x-4">
+                <div className="text-4xl flex-shrink-0">{service.icon}</div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
+                    {service.title}
+                  </h3>
+                  <div className="mb-4">
+                    <div className="inline-flex items-center bg-purple-600/20 rounded-full px-3 py-1 mb-3">
+                      <span className="text-purple-300 text-sm font-semibold">{service.results}</span>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 mb-6 text-lg leading-relaxed">
+                    {service.description}
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-gray-300">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <p className="text-lg text-gray-300 mb-6">
-            Ready to transform your digital presence?
+        {/* Commander CTA */}
+        <div className="text-center bg-gradient-to-r from-purple-900/50 to-slate-900/50 backdrop-blur-md border border-purple-500/30 rounded-2xl p-12">
+          <h3 className="text-3xl font-bold text-white mb-4">
+            Ready to Command Your Market?
+          </h3>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Strategic consultation sessions that deliver immediate clarity and actionable plans for market dominance.
           </p>
-          <a
-            href="#contact"
-            className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105"
-          >
-            Get Started Today
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#contact"
+              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+            >
+              Strategic Consultation →
+            </a>
+            <a
+              href="#portfolio"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-lg border border-purple-400/30 transition-all duration-200"
+            >
+              View Success Stories
+            </a>
+          </div>
         </div>
       </div>
     </section>
