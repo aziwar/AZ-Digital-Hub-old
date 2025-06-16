@@ -23,7 +23,7 @@ const testimonials: Testimonial[] = [
     name: 'Lina R.',
     role: 'Small Business Owner',
     quote:
-      'Thanks to Ahmed\'s social media campaigns, our brand engagement has skyrocketed.',
+      'Thanks to Ahmed&apos;s social media campaigns, our brand engagement has skyrocketed.',
   },
 ];
 
@@ -44,7 +44,7 @@ const Testimonials: React.FC = () => {
               key={idx}
               className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-6 text-center"
             >
-              <p className="text-gray-300 mb-4 italic">"{t.quote}"</p>
+              <p className="text-gray-300 mb-4 italic">&ldquo;{t.quote}&rdquo;</p>
               <h3 className="text-lg font-semibold text-white">{t.name}</h3>
               <p className="text-sm text-gray-400">{t.role}</p>
             </div>
