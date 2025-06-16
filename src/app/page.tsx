@@ -13,19 +13,31 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="pt-16">
-        <Hero />
-        <About />
-        <Services />
-        <Testimonials />
-        <Portfolio />
-        <Contact />
+        <section id="hero">
+          <Hero />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="services">
+          <Services />
+        </section>
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+        <section id="portfolio">
+          <Portfolio />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
       </div>
 
       {/* Footer */}
       <footer className="bg-slate-900 border-t border-slate-800 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-gray-400">
-            © 2024 Ahmed Ziwar. All rights reserved.
+            © 2025 Ahmed Ziwar - ENTJ Commander. All rights reserved.
           </p>
         </div>
       </footer>
