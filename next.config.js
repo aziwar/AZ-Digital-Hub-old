@@ -2,14 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  
+  // Simplified experimental features for stable deployment
   experimental: {
-    optimizePackageImports: [
-      '@heroicons/react',
-      'framer-motion',
-      'lucide-react',
-    ],
     optimizeCss: true,
-    scrollRestoration: true,
   },
   
   // Image optimization for Vercel
@@ -35,7 +31,7 @@ const nextConfig = {
     SITE_DESCRIPTION: 'Ahmed Ziwar - Strategic Digital Marketing Commander | ROI-Driven Solutions for Kuwait & GCC',
   },
 
-  // Security headers optimized for Vercel
+  // Essential security headers only
   async headers() {
     return [
       {
@@ -48,14 +44,6 @@ const nextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
           },
         ],
       },
