@@ -23,7 +23,7 @@ const testimonials: Testimonial[] = [
     name: 'Lina R.',
     role: 'Small Business Owner',
     quote:
-      'Thanks to Ahmed&apos;s social media campaigns, our brand engagement has skyrocketed.',
+      'Thanks to Ahmed\'s social media campaigns, our brand engagement has skyrocketed.',
   },
 ];
 
