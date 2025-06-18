@@ -3,9 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   
-  // Simplified experimental features for stable deployment
+  // Performance optimizations for Next.js 15
   experimental: {
-    optimizeCss: true,
+    optimizePackageImports: [
+      'framer-motion',
+      '@heroicons/react',
+      'lucide-react'
+    ],
+    webpackMemoryOptimizations: true,
   },
   
   // Image optimization for Vercel
@@ -19,6 +24,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 1 week
@@ -26,12 +35,12 @@ const nextConfig = {
 
   // Environment variables
   env: {
-    SITE_URL: process.env.SITE_URL || 'https://ahmedziwar.vercel.app',
-    SITE_NAME: 'AZ Digital Hub - ENTJ Commander',
+    SITE_URL: process.env.SITE_URL || 'https://az-digital-hub-ahmed-zewars-projects.vercel.app',
+    SITE_NAME: 'AZ Digital Hub - Ahmed Ziwar',
     SITE_DESCRIPTION: 'Ahmed Ziwar - Strategic Digital Marketing Commander | ROI-Driven Solutions for Kuwait & GCC',
   },
 
-  // Essential security headers only
+  // Security and performance headers
   async headers() {
     return [
       {
@@ -44,6 +53,14 @@ const nextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
           },
         ],
       },
