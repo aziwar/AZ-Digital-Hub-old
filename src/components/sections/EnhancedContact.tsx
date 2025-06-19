@@ -29,10 +29,10 @@ const EnhancedContact: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Initialize EmailJS (user needs to add their keys)
+      // EmailJS configuration with actual API keys
       await emailjs.send(
-        'YOUR_SERVICE_ID', // User needs to replace
-        'YOUR_TEMPLATE_ID', // User needs to replace
+        'service_k0o6pjb',        // Service ID
+        'J2bpzRucK3c2SkZ8O',      // Template ID
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -43,7 +43,7 @@ const EnhancedContact: React.FC = () => {
           message: formData.message,
           to_name: 'Ahmed Ziwar'
         },
-        'YOUR_PUBLIC_KEY' // User needs to replace
+        'vFeXiuswX_-hBd6vM12zz'  // Public Key
       );
       
       setSubmitStatus('success');
