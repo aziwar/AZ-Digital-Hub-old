@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next",
+    "deploy": "npm run type-check && npm run build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
