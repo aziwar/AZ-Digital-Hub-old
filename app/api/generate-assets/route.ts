@@ -1,130 +1,208 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { 
-  validateOpenAIConnection,
-  generateHeadshots,
-  generateBrandLogos,
+  validateOpenAIConnection, 
+  generateHeadshots, 
+  generateBrandLogos, 
   generateServiceGraphics,
-  calculateGenerationCost
+  calculateGenerationCost,
+  ImageGenerationOptions 
 } from '@/lib/openai'
 
-export async function GET(request: NextRequest) {
+// Type-safe request interface
+interface GenerateAssetsRequest {
+  brandName: string;
+  services: string[];
+  headshotCount?: number;
+  logoCount?: number;
+  serviceCount?: number;
+  quality?: 'standard' | 'hd';
+}
+
+// Type-safe response interface
+interface GenerateAssetsResponse {
+  success: boolean;
+  data?: {
+    headshots: string[];
+    logos: string[];
+    serviceGraphics: Record<string, string[]>;
+    totalCost: number;
+    imageCount: number;
+  };
+  error?: string;
+  validationErrors?: string[];
+}
+
+// Input validation with Context7-verified constraints
+function validateRequest(body: any): { isValid: boolean; errors: string[]; data?: GenerateAssetsRequest } {
+  const errors: string[] = [];
+  
+  if (!body.brandName || typeof body.brandName !== 'string' || body.brandName.trim().length === 0) {
+    errors.push('brandName is required and must be a non-empty string');
+  }
+  
+  if (!body.services || !Array.isArray(body.services) || body.services.length === 0) {
+    errors.push('services must be a non-empty array of strings');
+  }
+  
+  if (body.services && Array.isArray(body.services)) {
+    const invalidServices = body.services.filter(service => typeof service !== 'string' || service.trim().length === 0);
+    if (invalidServices.length > 0) {
+      errors.push('All services must be non-empty strings');
+    }
+  }
+  
+  // Validate optional counts
+  const counts = ['headshotCount', 'logoCount', 'serviceCount'];
+  counts.forEach(count => {
+    if (body[count] !== undefined) {
+      if (!Number.isInteger(body[count]) || body[count] < 0 || body[count] > 50) {
+        errors.push(`${count} must be an integer between 0 and 50`);
+      }
+    }
+  });
+  
+  // Validate quality parameter
+  if (body.quality && !['standard', 'hd'].includes(body.quality)) {
+    errors.push('quality must be either "standard" or "hd"');
+  }
+  
+  if (errors.length > 0) {
+    return { isValid: false, errors };
+  }
+  
+  return {
+    isValid: true,
+    errors: [],
+    data: {
+      brandName: body.brandName.trim(),
+      services: body.services.map((s: string) => s.trim()),
+      headshotCount: body.headshotCount || 4,
+      logoCount: body.logoCount || 8,
+      serviceCount: body.serviceCount || 12,
+      quality: body.quality || 'standard'
+    }
+  };
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse<GenerateAssetsResponse>> {
   try {
-    // Validate OpenAI connection
-    const isConnected = await validateOpenAIConnection()
+    // Environment validation
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { success: false, error: 'OPENAI_API_KEY environment variable not configured' },
+        { status: 500 }
+      );
+    }
     
+    // Parse and validate request body
+    const body = await request.json();
+    const validation = validateRequest(body);
+    
+    if (!validation.isValid) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', validationErrors: validation.errors },
+        { status: 400 }
+      );
+    }
+    
+    const { brandName, services, headshotCount, logoCount, serviceCount, quality } = validation.data!;
+    
+    // Validate OpenAI connection
+    const isConnected = await validateOpenAIConnection();
     if (!isConnected) {
       return NextResponse.json(
-        { error: 'OpenAI API connection failed' },
-        { status: 500 }
-      )
+        { success: false, error: 'OpenAI API connection failed' },
+        { status: 503 }
+      );
     }
-
-    return NextResponse.json({
-      status: 'connected',
-      message: 'OpenAI API validated successfully',
-      dalleAvailable: true,
-      estimatedCost: calculateGenerationCost()
-    })
+    
+    // Calculate and validate cost
+    const totalCost = calculateGenerationCost(headshotCount, logoCount, serviceCount);
+    const totalImages = headshotCount! + logoCount! + serviceCount!;
+    
+    console.log(`🚀 Starting asset generation for ${brandName}`);
+    console.log(`📊 Total images: ${totalImages}, Cost: $${totalCost.toFixed(2)}`);
+    
+    // Generate assets with error handling for each type
+    const results = await Promise.allSettled([
+      headshotCount! > 0 ? generateHeadshots('', headshotCount!) : Promise.resolve([]),
+      logoCount! > 0 ? generateBrandLogos(brandName, logoCount!) : Promise.resolve([]),
+      serviceCount! > 0 ? generateServiceGraphics(services, serviceCount!) : Promise.resolve({})
+    ]);
+    
+    // Process results and handle partial failures
+    const [headshotsResult, logosResult, serviceGraphicsResult] = results;
+    
+    const response: GenerateAssetsResponse = {
+      success: true,
+      data: {
+        headshots: headshotsResult.status === 'fulfilled' ? headshotsResult.value : [],
+        logos: logosResult.status === 'fulfilled' ? logosResult.value : [],
+        serviceGraphics: serviceGraphicsResult.status === 'fulfilled' ? serviceGraphicsResult.value : {},
+        totalCost,
+        imageCount: totalImages
+      }
+    };
+    
+    // Check for partial failures
+    const failures = results.filter(result => result.status === 'rejected');
+    if (failures.length > 0) {
+      console.warn('⚠️ Some asset generation failed:', failures);
+      response.error = `Partial success: ${failures.length} generation tasks failed`;
+    }
+    
+    console.log(`✅ Asset generation completed for ${brandName}`);
+    return NextResponse.json(response, { status: 200 });
     
   } catch (error) {
-    console.error('API validation error:', error)
+    console.error('❌ Asset generation API error:', error);
+    
     return NextResponse.json(
-      { error: 'API validation failed' },
+      { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      },
       { status: 500 }
-    )
+    );
   }
 }
 
-export async function POST(request: NextRequest) {
+// Type-safe GET endpoint for cost estimation
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const body = await request.json()
-    const { type, count, brandName, services } = body
-
-    // Validate OpenAI connection first
-    const isConnected = await validateOpenAIConnection()
-    if (!isConnected) {
+    const { searchParams } = new URL(request.url);
+    
+    const headshotCount = parseInt(searchParams.get('headshotCount') || '4');
+    const logoCount = parseInt(searchParams.get('logoCount') || '8');
+    const serviceCount = parseInt(searchParams.get('serviceCount') || '12');
+    const quality = (searchParams.get('quality') || 'standard') as 'standard' | 'hd';
+    
+    if (!['standard', 'hd'].includes(quality)) {
       return NextResponse.json(
-        { error: 'OpenAI API not available' },
-        { status: 500 }
-      )
+        { error: 'Invalid quality parameter' },
+        { status: 400 }
+      );
     }
-
-    let results: any = {}
-    let cost = 0
-
-    switch (type) {
-      case 'headshots':
-        results.headshots = await generateHeadshots('', count || 4)
-        cost = (count || 4) * 0.04
-        break
-        
-      case 'logos':
-        results.logos = await generateBrandLogos(brandName || 'AZ Digital Hub', count || 8)
-        cost = (count || 8) * 0.04
-        break
-        
-      case 'services':
-        const serviceList = services || [
-          'Digital Marketing Strategy',
-          'SEO Optimization',
-          'Social Media Management',
-          'PPC Advertising',
-          'Content Marketing',
-          'Web Development',
-          'Brand Development',
-          'Analytics & Reporting',
-          'Email Marketing',
-          'Lead Generation',
-          'Conversion Optimization',
-          'Marketing Automation'
-        ]
-        results.serviceGraphics = await generateServiceGraphics(serviceList)
-        cost = serviceList.length * 0.04
-        break
-        
-      case 'all':
-        // Generate complete asset package
-        results.headshots = await generateHeadshots('', 4)
-        results.logos = await generateBrandLogos(brandName || 'AZ Digital Hub', 8)
-        
-        const defaultServices = [
-          'Digital Marketing Strategy',
-          'SEO Optimization', 
-          'Social Media Management',
-          'PPC Advertising',
-          'Content Marketing',
-          'Web Development',
-          'Brand Development',
-          'Analytics & Reporting',
-          'Email Marketing',
-          'Lead Generation',
-          'Conversion Optimization',
-          'Marketing Automation'
-        ]
-        results.serviceGraphics = await generateServiceGraphics(defaultServices)
-        cost = calculateGenerationCost(4, 8, 12)
-        break
-        
-      default:
-        return NextResponse.json(
-          { error: 'Invalid generation type' },
-          { status: 400 }
-        )
-    }
-
+    
+    const totalCost = calculateGenerationCost(headshotCount, logoCount, serviceCount);
+    const totalImages = headshotCount + logoCount + serviceCount;
+    
     return NextResponse.json({
-      success: true,
-      type,
-      results,
-      cost: cost.toFixed(2),
-      timestamp: new Date().toISOString()
-    })
+      cost: totalCost,
+      imageCount: totalImages,
+      breakdown: {
+        headshots: { count: headshotCount, cost: headshotCount * 0.04 },
+        logos: { count: logoCount, cost: logoCount * 0.04 },
+        services: { count: serviceCount, cost: serviceCount * 0.04 }
+      },
+      quality,
+      pricePerImage: quality === 'hd' ? 0.08 : 0.04
+    });
     
   } catch (error) {
-    console.error('Asset generation error:', error)
     return NextResponse.json(
-      { error: 'Asset generation failed' },
+      { error: 'Failed to calculate cost' },
       { status: 500 }
-    )
+    );
   }
 }
