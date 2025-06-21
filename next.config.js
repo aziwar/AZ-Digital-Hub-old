@@ -6,9 +6,10 @@ const nextConfig = {
   // Performance optimizations for Next.js 15
   experimental: {
     optimizePackageImports: [
-      'framer-motion',
       '@heroicons/react',
-      'lucide-react'
+      'lucide-react',
+      '@radix-ui/react-slot',
+      'class-variance-authority'
     ],
     webpackMemoryOptimizations: true,
   },
@@ -72,6 +73,10 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
           },
         ],
       },
