@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "next lint --max-warnings 0",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit --strict",
+    "validate": "npm run type-check && npm run lint",
+    "clean": "rm -rf .next node_modules/.cache",
+    "build:analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.3.3",
