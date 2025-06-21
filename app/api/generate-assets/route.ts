@@ -5,8 +5,8 @@ import {
   generateBrandLogos, 
   generateServiceGraphics,
   calculateGenerationCost,
-  ImageGenerationOptions 
-} from '@/lib/openai'
+  type ImageGenerationOptions 
+} from '@/lib'
 
 // Type-safe request interface
 interface GenerateAssetsRequest {
