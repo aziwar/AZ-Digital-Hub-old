@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
 
 interface TypeAnimationProps {
@@ -13,12 +12,11 @@ interface TypeAnimationProps {
   cursor?: boolean
   omitDeletionAnimation?: boolean
   preRenderFirstString?: boolean
-  // No repeat prop - removed to fix build error
 }
 
 /**
- * High-Performance TypeAnimation using Framer Motion
- * Zero additional dependencies - uses existing Framer Motion
+ * High-Performance TypeAnimation using CSS animations
+ * React 19 compatible - no external dependencies
  */
 export default function TypeAnimation({
   sequence,
@@ -35,6 +33,7 @@ export default function TypeAnimation({
   const [currentText, setCurrentText] = useState(preRenderFirstString ? sequence[0] || '' : '')
   const [isDeleting, setIsDeleting] = useState(false)
   const [isWaiting, setIsWaiting] = useState(false)
+  const [textKey, setTextKey] = useState(0)
 
   const typeSpeed = speed
   const deleteSpeed = deletionSpeed
@@ -43,7 +42,6 @@ export default function TypeAnimation({
     const current = sequence[currentIndex]
     
     if (!current) return
-
     if (isWaiting) return
 
     if (!isDeleting) {
@@ -61,6 +59,7 @@ export default function TypeAnimation({
             // Skip deletion, move to next
             setCurrentIndex((prev) => (prev + 1) % sequence.length)
             setCurrentText('')
+            setTextKey(prev => prev + 1)
           }
         }, 1500) // Wait 1.5s before starting to delete
       }
@@ -72,6 +71,7 @@ export default function TypeAnimation({
         // Finished deleting
         setIsDeleting(false)
         setCurrentIndex((prev) => (prev + 1) % sequence.length)
+        setTextKey(prev => prev + 1)
       }
     }
   }, [currentText, currentIndex, isDeleting, isWaiting, sequence, omitDeletionAnimation])
@@ -90,30 +90,38 @@ export default function TypeAnimation({
   const Component = wrapper
 
   return (
-    <Component className={className} style={style}>
-      <motion.span
-        key={currentText}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.1 }}
-      >
-        {currentText}
-      </motion.span>
-      {cursor && (
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{
-            duration: 0.8,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            ease: 'easeInOut'
-          }}
-          className="inline-block ml-1"
-        >
-          |
-        </motion.span>
-      )}
-    </Component>
+    <>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes cursorBlink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        
+        .text-fade-in {
+          animation: fadeIn 0.1s ease-in;
+        }
+        
+        .cursor-blink {
+          animation: cursorBlink 0.8s infinite;
+        }
+      `}</style>
+      
+      <Component className={className} style={style}>
+        <span key={textKey} className="text-fade-in">
+          {currentText}
+        </span>
+        {cursor && (
+          <span className="inline-block ml-1 cursor-blink">
+            |
+          </span>
+        )}
+      </Component>
+    </>
   )
 }
 
@@ -138,19 +146,42 @@ export function FastTypeAnimation({
   }, [sequence])
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.span
+    <>
+      <style jsx>{`
+        @keyframes slideInUp {
+          from { 
+            opacity: 0; 
+            transform: translateY(10px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0px); 
+          }
+        }
+        
+        @keyframes slideOutUp {
+          from { 
+            opacity: 1; 
+            transform: translateY(0px); 
+          }
+          to { 
+            opacity: 0; 
+            transform: translateY(-10px); 
+          }
+        }
+        
+        .text-transition {
+          animation: slideInUp 0.5s ease-out;
+        }
+      `}</style>
+      
+      <span
         key={index}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.5 }}
-        className={className}
-        // @ts-ignore - Framer Motion's style prop is compatible with React.CSSProperties
+        className={`text-transition ${className}`}
         style={style}
       >
         {sequence[index]}
-      </motion.span>
-    </AnimatePresence>
+      </span>
+    </>
   )
 }
