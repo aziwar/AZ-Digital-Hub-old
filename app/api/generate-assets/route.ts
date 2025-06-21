@@ -45,7 +45,7 @@ function validateRequest(body: any): { isValid: boolean; errors: string[]; data?
   }
   
   if (body.services && Array.isArray(body.services)) {
-    const invalidServices = body.services.filter(service => typeof service !== 'string' || service.trim().length === 0);
+    const invalidServices = body.services.filter((service: any) => typeof service !== 'string' || service.trim().length === 0);
     if (invalidServices.length > 0) {
       errors.push('All services must be non-empty strings');
     }
