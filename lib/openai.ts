@@ -88,7 +88,8 @@ export function calculateImageCost(quality: 'standard' | 'hd', count: number): n
   return pricePerImage * count;
 }
 
-// Generate professional headshots (CORRECTED to standard quality)
+// Generate professional headshots (CORRECTED to standard quality)  
+// TypeScript Cache Invalidation: 2025-06-21T10:30:00Z
 export async function generateHeadshots(baseImagePath: string, count: number = 4): Promise<string[]> {
   try {
     const urls: string[] = [];
