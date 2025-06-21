@@ -13,12 +13,15 @@ A modern, high-performance portfolio website showcasing expertise in Digital Mar
 
 ### Required Environment Variables
 ```env
-# OpenAI Configuration
-OPENAI_API_KEY=sk-your-openai-key-here
+# Copy .env.example to .env.local and configure with your actual values
+# NEVER commit actual API keys to version control
 
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://vpqhbrekfovgkcwegvxn.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWhicmVrZm92Z2tjd2VndnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1NTI2MjQsImV4cCI6MjA2NDEyODYyNH0.UJfR_r6ax9sWWm9xp0haGKutBZF2ymxgrCZ5t1Vedj4
+# OpenAI Configuration
+OPENAI_API_KEY=your-openai-api-key-here
+
+# Supabase Configuration  
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 # Email Service
 EMAIL_SERVICE_API_KEY=your-email-service-key
@@ -98,7 +101,7 @@ npm install
 3. Configure environment variables:
 ```bash
 cp .env.example .env.local
-# Add API keys from checklist above
+# Add your actual API keys to .env.local (NEVER commit this file)
 ```
 
 4. Run development server:
@@ -149,7 +152,7 @@ module.exports = {
       },
       {
         protocol: 'https',
-        hostname: 'vpqhbrekfovgkcwegvxn.supabase.co',
+        hostname: '*.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
     ],
@@ -180,7 +183,7 @@ const response = await openai.images.generate({
 ```
 
 ### Supabase Configuration
-- **Project**: ai-knowledge-automation
+- **Project**: Configured via environment variables
 - **Region**: eu-central-1
 - **Status**: ACTIVE_HEALTHY
 
