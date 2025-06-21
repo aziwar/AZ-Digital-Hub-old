@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 
 export default function CursorEffect() {
   const [isVisible, setIsVisible] = useState(false)
@@ -67,46 +66,32 @@ export default function CursorEffect() {
   }
   
   return (
-    <AnimatePresence>
+    <>
       {isVisible && (
         <>
           {/* Main cursor */}
-          <motion.div
-            className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference"
+          <div
+            className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference transition-all duration-150 ease-out"
             style={{
-              x: position.x - 8,
-              y: position.y - 8,
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ 
-              scale: isPointer ? 1.5 : 1, 
+              transform: `translate(${position.x - 8}px, ${position.y - 8}px) scale(${isPointer ? 1.5 : 1})`,
               opacity: 1,
             }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.15 }}
           >
             <div className="w-full h-full bg-white rounded-full" />
-          </motion.div>
+          </div>
           
           {/* Cursor trail */}
-          <motion.div
-            className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998]"
+          <div
+            className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998] transition-all duration-300 ease-out delay-50"
             style={{
-              x: position.x - 16,
-              y: position.y - 16,
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ 
-              scale: isPointer ? 2 : 1.2, 
+              transform: `translate(${position.x - 16}px, ${position.y - 16}px) scale(${isPointer ? 2 : 1.2})`,
               opacity: 0.3,
             }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.3, delay: 0.05 }}
           >
             <div className="w-full h-full border border-purple-500 rounded-full" />
-          </motion.div>
+          </div>
         </>
       )}
-    </AnimatePresence>
+    </>
   )
 }
