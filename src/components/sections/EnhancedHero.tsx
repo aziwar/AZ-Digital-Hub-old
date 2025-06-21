@@ -43,7 +43,7 @@ const EnhancedHero: React.FC = () => {
             {/* VALUE PROPOSITION */}
             <div className="mb-8">
               <h2 className="text-xl md:text-3xl font-bold text-gray-200 mb-4">
-                Kuwait's #1 Digital Marketing Strategist
+                Kuwait&apos;s #1 Digital Marketing Strategist
               </h2>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                 Transform your business with <span className="text-purple-400 font-bold">proven strategies</span> that generated 
