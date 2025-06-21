@@ -24,7 +24,7 @@ export interface ImageGenerationOptions {
 }
 
 // Validate API connection and configuration (runtime only)
-export async function validateOpenAIConnection(): Promise<boolean> {
+export async function validateOpenAIConfig(): Promise<boolean> {
   try {
     if (!process.env.OPENAI_API_KEY) {
       console.error('❌ OPENAI_API_KEY environment variable not set')
