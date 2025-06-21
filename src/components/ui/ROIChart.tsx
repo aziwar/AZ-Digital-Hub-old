@@ -1,6 +1,6 @@
 'use client'
 
-import { TrendingUpIcon, ChartBarIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid'
+import { ArrowTrendingUpIcon, ChartBarIcon, CurrencyDollarIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
 interface ROIMetric {
@@ -52,7 +52,7 @@ export function ROIChart() {
         <div className="relative">
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/30 to-cyan-400/30 blur-lg" />
           <div className="relative bg-slate-700/50 rounded-full p-2">
-            <TrendingUpIcon className="size-6 text-green-400" />
+            <ArrowTrendingUpIcon className="size-6 text-green-400" />
           </div>
         </div>
         <div>
@@ -127,7 +127,7 @@ export function ROIChart() {
 export function ROIBadge({ metric }: { metric: ROIMetric }) {
   return (
     <div className="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur rounded-full px-3 py-1 border border-purple-500/30">
-      <TrendingUpIcon className="size-4 text-green-400" />
+      <ArrowTrendingUpIcon className="size-4 text-green-400" />
       <span className={`text-sm font-bold bg-gradient-to-r ${metric.color} bg-clip-text text-transparent`}>
         {metric.value}
       </span>
