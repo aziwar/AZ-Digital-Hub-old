@@ -1,9 +1,19 @@
 import OpenAI from 'openai'
 
-// Initialize OpenAI client with validated API key
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Build-safe OpenAI client - lazy initialization
+let openaiClient: OpenAI | null = null
+
+function getOpenAIClient(): OpenAI {
+  if (!openaiClient) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is not set')
+    }
+    openaiClient = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  }
+  return openaiClient
+}
 
 // Context7-validated DALL-E 3 interface
 export interface ImageGenerationOptions {
@@ -13,7 +23,7 @@ export interface ImageGenerationOptions {
   style?: 'vivid' | 'natural';
 }
 
-// Validate API connection and configuration
+// Validate API connection and configuration (runtime only)
 export async function validateOpenAIConnection(): Promise<boolean> {
   try {
     if (!process.env.OPENAI_API_KEY) {
@@ -21,7 +31,8 @@ export async function validateOpenAIConnection(): Promise<boolean> {
       return false
     }
     
-    const models = await openai.models.list()
+    const client = getOpenAIClient()
+    const models = await client.models.list()
     const dalleModel = models.data.find(model => model.id.includes('dall-e-3'))
     
     if (!dalleModel) {
@@ -50,7 +61,8 @@ export async function generateImage(options: ImageGenerationOptions) {
   }
 
   try {
-    const response = await openai.images.generate({
+    const client = getOpenAIClient()
+    const response = await client.images.generate({
       model: 'dall-e-3',
       prompt,
       size,
@@ -80,9 +92,10 @@ export function calculateImageCost(quality: 'standard' | 'hd', count: number): n
 export async function generateHeadshots(baseImagePath: string, count: number = 4): Promise<string[]> {
   try {
     const urls: string[] = [];
+    const client = getOpenAIClient()
     
     for (let i = 0; i < count; i++) {
-      const response = await openai.images.generate({
+      const response = await client.images.generate({
         model: 'dall-e-3',
         prompt: `Professional corporate headshot of a Middle Eastern digital marketing expert, wearing business attire, clean studio lighting, high quality photography, LinkedIn-style professional portrait`,
         n: 1,
@@ -109,9 +122,10 @@ export async function generateHeadshots(baseImagePath: string, count: number = 4
 export async function generateBrandLogos(brandName: string, count: number = 8): Promise<string[]> {
   try {
     const logoUrls: string[] = [];
+    const client = getOpenAIClient()
     
     for (let i = 0; i < count; i++) {
-      const response = await openai.images.generate({
+      const response = await client.images.generate({
         model: 'dall-e-3',
         prompt: `Modern professional logo for "${brandName}" digital marketing agency, minimalist design, technology-focused, Kuwait/GCC market, corporate branding, vector-style illustration`,
         n: 1,
@@ -138,9 +152,10 @@ export async function generateBrandLogos(brandName: string, count: number = 8): 
 export async function generateServiceGraphics(services: string[], count: number = 12): Promise<Record<string, string[]>> {
   try {
     const serviceGraphics: Record<string, string[]> = {};
+    const client = getOpenAIClient()
     
     for (const service of services) {
-      const response = await openai.images.generate({
+      const response = await client.images.generate({
         model: 'dall-e-3',
         prompt: `Professional icon illustration for ${service} service, modern flat design, business-focused, clean vector style, technology theme, corporate branding`,
         n: 1,
@@ -183,5 +198,6 @@ export const DALLE_PRICING = {
   hd: 0.08,
 } as const;
 
-export { openai }
-export default openai
+// Export client getter for runtime use only
+export { getOpenAIClient }
+export default getOpenAIClient
