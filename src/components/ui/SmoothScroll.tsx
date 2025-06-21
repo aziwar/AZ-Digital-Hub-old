@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, ReactNode } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { useEffect, useRef, ReactNode, useState } from 'react'
 
 interface SmoothScrollProps {
   children: ReactNode
@@ -9,18 +8,19 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll()
-  
-  // Create smooth spring animation for scroll
-  const smoothProgress = useSpring(scrollYProgress, {
-    damping: 20,
-    stiffness: 100,
-    mass: 0.5
-  })
+  const [scrollProgress, setScrollProgress] = useState(0)
   
   useEffect(() => {
     // Add smooth scrolling CSS for browsers that support it
     document.documentElement.style.scrollBehavior = 'smooth'
+    
+    // Track scroll progress
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0
+      setScrollProgress(Math.min(Math.max(progress, 0), 1))
+    }
     
     // Handle smooth scrolling for anchor links
     const handleAnchorClick = (e: MouseEvent) => {
@@ -38,8 +38,6 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
         }
       }
     }
-    
-    document.addEventListener('click', handleAnchorClick)
     
     // Smooth scroll for keyboard navigation
     const handleKeyboard = (e: KeyboardEvent) => {
@@ -69,10 +67,17 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       }
     }
     
+    // Add event listeners
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    document.addEventListener('click', handleAnchorClick)
     document.addEventListener('keydown', handleKeyboard)
+    
+    // Initial scroll position
+    handleScroll()
     
     // Clean up
     return () => {
+      window.removeEventListener('scroll', handleScroll)
       document.removeEventListener('click', handleAnchorClick)
       document.removeEventListener('keydown', handleKeyboard)
       document.documentElement.style.scrollBehavior = 'auto'
@@ -88,14 +93,23 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
   }, [])
   
   return (
-    <motion.div ref={scrollRef} className="smooth-scroll-container">
-      {/* Progress indicator */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-cyan-600 transform-origin-left z-50"
-        style={{ scaleX: smoothProgress }}
-      />
+    <>
+      <style jsx>{`
+        .smooth-scroll-progress {
+          transform-origin: left;
+          transition: transform 0.1s ease-out;
+        }
+      `}</style>
       
-      {children}
-    </motion.div>
+      <div ref={scrollRef} className="smooth-scroll-container">
+        {/* Progress indicator */}
+        <div
+          className="smooth-scroll-progress fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-cyan-600 z-50"
+          style={{ transform: `scaleX(${scrollProgress})` }}
+        />
+        
+        {children}
+      </div>
+    </>
   )
 }
