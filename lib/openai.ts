@@ -73,8 +73,8 @@ export async function generateImage(options: ImageGenerationOptions) {
     });
 
     return {
-      url: response.data[0].url,
-      revisedPrompt: response.data[0].revised_prompt,
+      url: response.data?.[0]?.url || '',
+      revisedPrompt: response.data?.[0]?.revised_prompt || '',
     };
   } catch (error) {
     console.error('❌ Image generation failed:', error);
@@ -105,7 +105,7 @@ export async function generateHeadshots(baseImagePath: string, count: number = 4
         response_format: 'url'
       });
       
-      if (response.data[0]?.url) {
+      if (response.data?.[0]?.url) {
         urls.push(response.data[0].url);
       }
     }
@@ -135,7 +135,7 @@ export async function generateBrandLogos(brandName: string, count: number = 8): 
         response_format: 'url'
       });
       
-      if (response.data[0]?.url) {
+      if (response.data?.[0]?.url) {
         logoUrls.push(response.data[0].url);
       }
     }
@@ -165,7 +165,7 @@ export async function generateServiceGraphics(services: string[], count: number 
         response_format: 'url'
       });
       
-      if (response.data[0]?.url) {
+      if (response.data?.[0]?.url) {
         serviceGraphics[service] = [response.data[0].url];
       }
     }
