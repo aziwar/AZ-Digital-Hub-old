@@ -12,6 +12,3 @@ export {
   getOpenAIClient,
   type ImageGenerationOptions
 } from './openai'
-
-// Default export for compatibility
-export { default } from './openai'
