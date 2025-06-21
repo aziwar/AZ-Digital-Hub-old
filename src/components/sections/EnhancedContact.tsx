@@ -384,7 +384,7 @@ const EnhancedContact: React.FC = () => {
         {/* FINAL URGENCY CTA */}
         <div className="text-center mt-16 p-8 bg-gradient-to-r from-red-900/30 to-purple-900/30 backdrop-blur-md border border-red-500/30 rounded-2xl">
           <h3 className="text-3xl font-bold text-white mb-4">
-            ⚡ Don't Miss Your Strategic Advantage
+            ⚡ Don&apos;t Miss Your Strategic Advantage
           </h3>
           <p className="text-xl text-gray-300 mb-6 max-w-3xl mx-auto">
             While your competitors struggle with outdated marketing, secure your spot for strategic digital transformation that delivers results.
