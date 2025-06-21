@@ -3,14 +3,6 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   
-  // CRITICAL: Build error bypasses for production deployment
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
   // Performance optimizations for Next.js 15
   experimental: {
     optimizePackageImports: [
