@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { 
-  validateOpenAIConnection, 
+  validateOpenAIConfig, 
   generateHeadshots, 
   generateBrandLogos, 
   generateServiceGraphics,
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<GenerateA
     const { brandName, services, headshotCount, logoCount, serviceCount, quality } = validation.data!;
     
     // Validate OpenAI connection
-    const isConnected = await validateOpenAIConnection();
+    const isConnected = await validateOpenAIConfig();
     if (!isConnected) {
       return NextResponse.json(
         { success: false, error: 'OpenAI API connection failed' },
