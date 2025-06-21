@@ -21,7 +21,7 @@ const nextConfig = {
     webpackMemoryOptimizations: true,
   },
   
-  // Image optimization for Vercel
+  // Image optimization for Vercel + OpenAI DALL-E 3
   images: {
     domains: ['localhost'],
     remotePatterns: [
@@ -36,6 +36,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'oaidalleapiprodscus.blob.core.windows.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vpqhbrekfovgkcwegvxn.supabase.co',
+        pathname: '/storage/v1/object/public/**',
       },
     ],
     formats: ['image/avif', 'image/webp'],
