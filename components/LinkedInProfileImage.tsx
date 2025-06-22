@@ -1,9 +1,11 @@
-﻿import { useState, useEffect } from 'react';
 import Image from 'next/image';
+
+import { useState } from 'react';
+
 import { imageConfig } from '@/lib/images.config';
 
 export function LinkedInProfileImage({ className, width = 400, height = 400 }) {
-  const [imageUrl, setImageUrl] = useState(imageConfig.profile.fallback);
+  const [imageUrl] = useState(imageConfig.profile.fallback);
   
   return (
     <div className={`relative ${className}`}>
