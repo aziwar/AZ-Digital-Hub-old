@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef, ReactNode, useState } from 'react'
+import type { ReactNode} from 'react';
+import { useEffect, useRef, useState } from 'react'
 
 interface SmoothScrollProps {
   children: ReactNode
@@ -87,7 +88,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
   // Add momentum scrolling for touch devices
   useEffect(() => {
     if ('ontouchstart' in window) {
-      // @ts-ignore - webkitOverflowScrolling is a non-standard property
+      // @ts-expect-error - webkitOverflowScrolling is a non-standard property
       document.body.style.webkitOverflowScrolling = 'touch'
     }
   }, [])

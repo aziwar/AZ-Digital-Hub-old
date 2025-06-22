@@ -1,8 +1,9 @@
 // ENHANCED Hero - Maximum Customer Conversion Focus with Visual Enhancements
-import React from 'react';
 import Link from 'next/link';
-import { ServiceIconGrid } from '@/components/ui/ServiceIcons';
+import React from 'react';
+
 import { ROIChart } from '@/components/ui/ROIChart';
+import { ServiceIconGrid } from '@/components/ui/ServiceIcons';
 
 const EnhancedHero: React.FC = () => {
   return (

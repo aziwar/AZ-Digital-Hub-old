@@ -1,9 +1,9 @@
 // cleanup-and-setup.js
 // Run this script with: node cleanup-and-setup.js
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 console.log('🚀 Starting AZ Digital Hub Cleanup and Setup Process...\n');
 

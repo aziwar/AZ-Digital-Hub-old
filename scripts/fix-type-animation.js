@@ -7,9 +7,9 @@
  * by switching from external dependency to Framer Motion solution.
  */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 console.log('🔍 Starting TypeAnimation fix process...');
 

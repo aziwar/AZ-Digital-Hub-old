@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import React, { useState } from 'react';
 
 const EnhancedContact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -51,8 +51,8 @@ const EnhancedContact: React.FC = () => {
         name: '', email: '', company: '', project_type: '', 
         budget_range: '', message: '', phone: ''
       });
-    } catch (error) {
-      console.error('Email send failed:', error);
+    } catch (_error) {
+      
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

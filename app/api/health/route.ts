@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from "next/server"
+import { NextResponse } from 'next/server'
 
 // Context7-validated environment diagnostic endpoint
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   try {
     // Environment validation
     const hasOpenAIKey = !!process.env.OPENAI_API_KEY

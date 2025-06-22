@@ -17,24 +17,24 @@ export async function validateOpenAIConnection(): Promise<boolean> {
     )
     
     if (!dalleModel) {
-      console.error('DALL-E 3 model not available')
+      
       return false
     }
     
-    console.log('✅ OpenAI API connection validated')
-    console.log('✅ DALL-E 3 model available')
+    
+    
     return true
     
-  } catch (error) {
-    console.error('❌ OpenAI API validation failed:', error)
+  } catch (_error) {
+    
     return false
   }
 }
 
 // Generate professional headshot variations
 export async function generateHeadshots(
-  baseImagePath: string,
-  count: number = 4
+  _baseImagePath: string,
+  _count: number = 4
 ): Promise<string[]> {
   try {
     const response = await openai.images.generate({
@@ -46,13 +46,13 @@ export async function generateHeadshots(
       response_format: 'url'
     })
     
-    const urls = response.data.map(image => image.url).filter(Boolean) as string[]
-    console.log(`✅ Generated ${urls.length} professional headshots`)
+    const urls = response.data?.map(image => image.url).filter(Boolean) as string[] || []
+    
     return urls
     
-  } catch (error) {
-    console.error('❌ Headshot generation failed:', error)
-    throw error
+  } catch (_error) {
+    
+    throw _error
   }
 }
 
@@ -74,24 +74,24 @@ export async function generateBrandLogos(
         response_format: 'url'
       })
       
-      if (response.data[0]?.url) {
-        logoUrls.push(response.data[0].url)
+      if (response.data?.[0]?.url) {
+        logoUrls.push(response.data?.[0].url)
       }
     }
     
-    console.log(`✅ Generated ${logoUrls.length} brand logo variations`)
+    
     return logoUrls
     
   } catch (error) {
-    console.error('❌ Brand logo generation failed:', error)
-    throw error
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    throw new Error(`API operation failed: ${errorMessage}`)
   }
 }
 
 // Generate service graphics
 export async function generateServiceGraphics(
   services: string[],
-  count: number = 12
+  _count: number = 12
 ): Promise<Record<string, string[]>> {
   try {
     const serviceGraphics: Record<string, string[]> = {}
@@ -106,17 +106,16 @@ export async function generateServiceGraphics(
         response_format: 'url'
       })
       
-      if (response.data[0]?.url) {
-        serviceGraphics[service] = [response.data[0].url]
+      if (response.data?.[0]?.url) {
+        serviceGraphics[service] = [response.data?.[0].url]
       }
     }
     
-    console.log(`✅ Generated service graphics for ${Object.keys(serviceGraphics).length} services`)
     return serviceGraphics
     
   } catch (error) {
-    console.error('❌ Service graphics generation failed:', error)
-    throw error
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    throw new Error(`API operation failed: ${errorMessage}`)
   }
 }
 
@@ -130,12 +129,6 @@ export function calculateGenerationCost(
   const costPerImage = 0.04
   const totalImages = headshotCount + logoCount + serviceCount
   const totalCost = totalImages * costPerImage
-  
-  console.log(`💰 Cost calculation:`)
-  console.log(`   - Headshots: ${headshotCount} × $${costPerImage} = $${(headshotCount * costPerImage).toFixed(2)}`)
-  console.log(`   - Logos: ${logoCount} × $${costPerImage} = $${(logoCount * costPerImage).toFixed(2)}`)
-  console.log(`   - Service graphics: ${serviceCount} × $${costPerImage} = $${(serviceCount * costPerImage).toFixed(2)}`)
-  console.log(`   - Total: $${totalCost.toFixed(2)}`)
   
   return totalCost
 }

@@ -57,7 +57,7 @@ export async function generateProfessionalHeadshot(
       n: 1,
     })
     
-    const imageUrl = response.data[0]?.url
+    const imageUrl = response.data?.[0]?.url
     if (!imageUrl) {
       throw new Error('No image URL returned from DALL-E 3')
     }
@@ -87,7 +87,7 @@ export async function generateBrandLogo(
       n: 1,
     })
     
-    const imageUrl = response.data[0]?.url
+    const imageUrl = response.data?.[0]?.url
     if (!imageUrl) {
       throw new Error('No image URL returned from DALL-E 3')
     }
@@ -117,7 +117,7 @@ export async function generateServiceIllustration(
       n: 1,
     })
     
-    const imageUrl = response.data[0]?.url
+    const imageUrl = response.data?.[0]?.url
     if (!imageUrl) {
       throw new Error('No image URL returned from DALL-E 3')
     }

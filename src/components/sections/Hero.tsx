@@ -1,6 +1,6 @@
 // ENTJ Commander Hero - Strategic Leadership & ROI-Driven Results
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 const Hero: React.FC = () => {
   return (

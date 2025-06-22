@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    await request.json() // Validate JSON payload
     
     // Log the contact form submission
-    console.log('Contact form submission:', body)
+    
     
     // Simulate processing
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Contact form error:', error)
+  } catch (_error) {
+    
     return NextResponse.json(
       { 
         success: false, 

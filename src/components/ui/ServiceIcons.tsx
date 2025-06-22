@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CodeBracketIcon,
   PresentationChartBarIcon,
@@ -7,6 +6,7 @@ import {
   GlobeAltIcon,
   DevicePhoneMobileIcon
 } from '@heroicons/react/24/outline';
+import React from 'react';
 
 export interface ServiceIconProps {
   name: string;
