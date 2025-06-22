@@ -1,70 +1,58 @@
 import OpenAI from 'openai'
 
-// Lazy initialization pattern - defer client creation until runtime
-let openaiClient: OpenAI | null = null
-
-function getOpenAIClient(): OpenAI {
-  if (!openaiClient) {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error('OPENAI_API_KEY environment variable is missing or empty')
-    }
-    
-    openaiClient = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
-  }
-  
-  return openaiClient
-}
+// Initialize OpenAI client with API key from environment
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
 // Validate API connection and configuration
 export async function validateOpenAIConnection(): Promise<boolean> {
   try {
-    // Lazy client initialization prevents build-time errors
-    const openai = getOpenAIClient()
-    
     // Test API connection with minimal request
     const models = await openai.models.list()
-    
+
     // Verify DALL-E 3 model availability
-    const dalleModel = models.data.find(model => 
+    const dalleModel = models.data.find(model =>
       model.id.includes('dall-e-3')
     )
-    
+
     if (!dalleModel) {
+      console.error('DALL-E 3 model not available')
       return false
     }
-    
+
+    console.log('✅ OpenAI API connection validated')
+    console.log('✅ DALL-E 3 model available')
     return true
-    
-  } catch (_error) {
+
+  } catch (error) {
+    console.error('❌ OpenAI API validation failed:', error)
     return false
   }
 }
 
 // Generate professional headshot variations
 export async function generateHeadshots(
-  _baseImagePath: string,
-  _count: number = 4
+  baseImagePath: string,
+  count: number = 4
 ): Promise<string[]> {
   try {
-    const openai = getOpenAIClient()
-    
     const response = await openai.images.generate({
       model: 'dall-e-3',
       prompt: `Professional corporate headshot of a Middle Eastern digital marketing expert, wearing business attire, clean studio lighting, high quality photography, LinkedIn-style professional portrait`,
       n: 1,
       size: '1024x1024',
-      quality: 'standard',
+      quality: 'hd',
       response_format: 'url'
     })
-    
-    const urls = response.data?.map(image => image.url).filter(Boolean) as string[] || []
-    
+
+    const urls = response.data.map(image => image.url).filter(Boolean) as string[]
+    console.log(`✅ Generated ${urls.length} professional headshots`)
     return urls
-    
-  } catch (_error) {
-    throw _error
+
+  } catch (error) {
+    console.error('❌ Headshot generation failed:', error)
+    throw error
   }
 }
 
@@ -74,9 +62,8 @@ export async function generateBrandLogos(
   count: number = 8
 ): Promise<string[]> {
   try {
-    const openai = getOpenAIClient()
     const logoUrls: string[] = []
-    
+
     for (let i = 0; i < count; i++) {
       const response = await openai.images.generate({
         model: 'dall-e-3',
@@ -86,29 +73,29 @@ export async function generateBrandLogos(
         quality: 'standard',
         response_format: 'url'
       })
-      
-      if (response.data?.[0]?.url) {
-        logoUrls.push(response.data?.[0].url)
+
+      if (response.data[0]?.url) {
+        logoUrls.push(response.data[0].url)
       }
     }
-    
+
+    console.log(`✅ Generated ${logoUrls.length} brand logo variations`)
     return logoUrls
-    
+
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    throw new Error(`API operation failed: ${errorMessage}`)
+    console.error('❌ Brand logo generation failed:', error)
+    throw error
   }
 }
 
 // Generate service graphics
 export async function generateServiceGraphics(
   services: string[],
-  _count: number = 12
+  count: number = 12
 ): Promise<Record<string, string[]>> {
   try {
-    const openai = getOpenAIClient()
     const serviceGraphics: Record<string, string[]> = {}
-    
+
     for (const service of services) {
       const response = await openai.images.generate({
         model: 'dall-e-3',
@@ -118,17 +105,18 @@ export async function generateServiceGraphics(
         quality: 'standard',
         response_format: 'url'
       })
-      
-      if (response.data?.[0]?.url) {
-        serviceGraphics[service] = [response.data?.[0].url]
+
+      if (response.data[0]?.url) {
+        serviceGraphics[service] = [response.data[0].url]
       }
     }
-    
+
+    console.log(`✅ Generated service graphics for ${Object.keys(serviceGraphics).length} services`)
     return serviceGraphics
-    
+
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    throw new Error(`API operation failed: ${errorMessage}`)
+    console.error('❌ Service graphics generation failed:', error)
+    throw error
   }
 }
 
@@ -138,14 +126,19 @@ export function calculateGenerationCost(
   logoCount: number = 8,
   serviceCount: number = 12
 ): number {
-  // DALL-E 3 pricing: $0.04 per 1024x1024 standard quality image
+  // DALL-E 3 pricing: $0.04 per 1024x1024 image
   const costPerImage = 0.04
   const totalImages = headshotCount + logoCount + serviceCount
   const totalCost = totalImages * costPerImage
-  
+
+  console.log(`💰 Cost calculation:`)
+  console.log(`  - Headshots: ${headshotCount} × $${costPerImage} = $${(headshotCount * costPerImage).toFixed(2)}`)
+  console.log(`  - Logos: ${logoCount} × $${costPerImage} = $${(logoCount * costPerImage).toFixed(2)}`)
+  console.log(`  - Service graphics: ${serviceCount} × $${costPerImage} = $${(serviceCount * costPerImage).toFixed(2)}`)
+  console.log(`  - Total: $${totalCost.toFixed(2)}`)
+
   return totalCost
 }
 
-// Export lazy client getter for compatibility
-export const openai = getOpenAIClient
-export default getOpenAIClient
+export { openai }
+export default openai
