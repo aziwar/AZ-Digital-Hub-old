@@ -17,16 +17,12 @@ export async function validateOpenAIConnection(): Promise<boolean> {
     )
 
     if (!dalleModel) {
-      console.error('DALL-E 3 model not available')
       return false
     }
 
-    console.log('✅ OpenAI API connection validated')
-    console.log('✅ DALL-E 3 model available')
     return true
 
   } catch (error) {
-    console.error('❌ OpenAI API validation failed:', error)
     return false
   }
 }
@@ -34,7 +30,7 @@ export async function validateOpenAIConnection(): Promise<boolean> {
 // Generate professional headshot variations
 export async function generateHeadshots(
   baseImagePath: string,
-  count: number = 4
+  _count: number = 4
 ): Promise<string[]> {
   try {
     const response = await openai.images.generate({
@@ -47,11 +43,9 @@ export async function generateHeadshots(
     })
 
     const urls = response.data.map(image => image.url).filter(Boolean) as string[]
-    console.log(`✅ Generated ${urls.length} professional headshots`)
     return urls
 
   } catch (error) {
-    console.error('❌ Headshot generation failed:', error)
     throw error
   }
 }
@@ -79,11 +73,9 @@ export async function generateBrandLogos(
       }
     }
 
-    console.log(`✅ Generated ${logoUrls.length} brand logo variations`)
     return logoUrls
 
   } catch (error) {
-    console.error('❌ Brand logo generation failed:', error)
     throw error
   }
 }
@@ -91,7 +83,7 @@ export async function generateBrandLogos(
 // Generate service graphics
 export async function generateServiceGraphics(
   services: string[],
-  count: number = 12
+  _count: number = 12
 ): Promise<Record<string, string[]>> {
   try {
     const serviceGraphics: Record<string, string[]> = {}
@@ -111,11 +103,9 @@ export async function generateServiceGraphics(
       }
     }
 
-    console.log(`✅ Generated service graphics for ${Object.keys(serviceGraphics).length} services`)
     return serviceGraphics
 
   } catch (error) {
-    console.error('❌ Service graphics generation failed:', error)
     throw error
   }
 }
@@ -130,12 +120,6 @@ export function calculateGenerationCost(
   const costPerImage = 0.04
   const totalImages = headshotCount + logoCount + serviceCount
   const totalCost = totalImages * costPerImage
-
-  console.log(`💰 Cost calculation:`)
-  console.log(`  - Headshots: ${headshotCount} × $${costPerImage} = $${(headshotCount * costPerImage).toFixed(2)}`)
-  console.log(`  - Logos: ${logoCount} × $${costPerImage} = $${(logoCount * costPerImage).toFixed(2)}`)
-  console.log(`  - Service graphics: ${serviceCount} × $${costPerImage} = $${(serviceCount * costPerImage).toFixed(2)}`)
-  console.log(`  - Total: $${totalCost.toFixed(2)}`)
 
   return totalCost
 }
