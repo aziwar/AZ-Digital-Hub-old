@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+
 import { imageConfig } from '@/lib/images.config';
 
 export function LinkedInProfileImage({ className = '', width = 400, height = 400 }: {

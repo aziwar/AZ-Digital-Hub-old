@@ -3,7 +3,13 @@ import { useState } from 'react';
 
 import { imageConfig } from '@/lib/images.config';
 
-export function LinkedInProfileImage({ className, width = 400, height = 400 }) {
+interface LinkedInProfileImageProps {
+  className?: string;
+  width?: number;
+  height?: number;
+}
+
+export function LinkedInProfileImage({ className = '', width = 400, height = 400 }: LinkedInProfileImageProps) {
   const [imageUrl] = useState(imageConfig.profile.fallback);
   
   return (
