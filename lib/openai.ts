@@ -22,14 +22,14 @@ export async function validateOpenAIConnection(): Promise<boolean> {
 
     return true
 
-  } catch (error) {
+  } catch (_error) {
     return false
   }
 }
 
 // Generate professional headshot variations
 export async function generateHeadshots(
-  baseImagePath: string,
+  _baseImagePath: string,
   _count: number = 4
 ): Promise<string[]> {
   try {
