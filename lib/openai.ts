@@ -1,13 +1,28 @@
 import OpenAI from 'openai'
 
-// Initialize OpenAI client with API key from environment
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy initialization pattern - defer client creation until runtime
+let openaiClient: OpenAI | null = null
+
+function getOpenAIClient(): OpenAI {
+  if (!openaiClient) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is missing or empty')
+    }
+    
+    openaiClient = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  }
+  
+  return openaiClient
+}
 
 // Validate API connection and configuration
 export async function validateOpenAIConnection(): Promise<boolean> {
   try {
+    // Lazy client initialization prevents build-time errors
+    const openai = getOpenAIClient()
+    
     // Test API connection with minimal request
     const models = await openai.models.list()
     
@@ -17,16 +32,12 @@ export async function validateOpenAIConnection(): Promise<boolean> {
     )
     
     if (!dalleModel) {
-      
       return false
     }
-    
-    
     
     return true
     
   } catch (_error) {
-    
     return false
   }
 }
@@ -37,12 +48,14 @@ export async function generateHeadshots(
   _count: number = 4
 ): Promise<string[]> {
   try {
+    const openai = getOpenAIClient()
+    
     const response = await openai.images.generate({
       model: 'dall-e-3',
       prompt: `Professional corporate headshot of a Middle Eastern digital marketing expert, wearing business attire, clean studio lighting, high quality photography, LinkedIn-style professional portrait`,
       n: 1,
       size: '1024x1024',
-      quality: 'hd',
+      quality: 'standard',
       response_format: 'url'
     })
     
@@ -51,7 +64,6 @@ export async function generateHeadshots(
     return urls
     
   } catch (_error) {
-    
     throw _error
   }
 }
@@ -62,6 +74,7 @@ export async function generateBrandLogos(
   count: number = 8
 ): Promise<string[]> {
   try {
+    const openai = getOpenAIClient()
     const logoUrls: string[] = []
     
     for (let i = 0; i < count; i++) {
@@ -79,7 +92,6 @@ export async function generateBrandLogos(
       }
     }
     
-    
     return logoUrls
     
   } catch (error) {
@@ -94,6 +106,7 @@ export async function generateServiceGraphics(
   _count: number = 12
 ): Promise<Record<string, string[]>> {
   try {
+    const openai = getOpenAIClient()
     const serviceGraphics: Record<string, string[]> = {}
     
     for (const service of services) {
@@ -125,7 +138,7 @@ export function calculateGenerationCost(
   logoCount: number = 8,
   serviceCount: number = 12
 ): number {
-  // DALL-E 3 pricing: $0.04 per 1024x1024 image
+  // DALL-E 3 pricing: $0.04 per 1024x1024 standard quality image
   const costPerImage = 0.04
   const totalImages = headshotCount + logoCount + serviceCount
   const totalCost = totalImages * costPerImage
@@ -133,5 +146,6 @@ export function calculateGenerationCost(
   return totalCost
 }
 
-export { openai }
-export default openai
+// Export lazy client getter for compatibility
+export const openai = getOpenAIClient
+export default getOpenAIClient
