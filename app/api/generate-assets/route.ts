@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
 import { 
-  validateOpenAIConfig, 
   generateHeadshots, 
   generateBrandLogos, 
   generateServiceGraphics,
   calculateGenerationCost,
-  type ImageGenerationOptions 
+  validateOpenAIConnection
 } from '@/lib'
 
 // Type-safe request interface
@@ -33,19 +34,20 @@ interface GenerateAssetsResponse {
 }
 
 // Input validation with Context7-verified constraints
-function validateRequest(body: any): { isValid: boolean; errors: string[]; data?: GenerateAssetsRequest } {
+function validateRequest(body: unknown): { isValid: boolean; errors: string[]; data?: GenerateAssetsRequest } {
   const errors: string[] = [];
+  const typedBody = body as Record<string, unknown>;
   
-  if (!body.brandName || typeof body.brandName !== 'string' || body.brandName.trim().length === 0) {
+  if (!typedBody.brandName || typeof typedBody.brandName !== 'string' || typedBody.brandName.trim().length === 0) {
     errors.push('brandName is required and must be a non-empty string');
   }
   
-  if (!body.services || !Array.isArray(body.services) || body.services.length === 0) {
+  if (!typedBody.services || !Array.isArray(typedBody.services) || typedBody.services.length === 0) {
     errors.push('services must be a non-empty array of strings');
   }
   
-  if (body.services && Array.isArray(body.services)) {
-    const invalidServices = body.services.filter((service: any) => typeof service !== 'string' || service.trim().length === 0);
+  if (typedBody.services && Array.isArray(typedBody.services)) {
+    const invalidServices = typedBody.services.filter((service: unknown) => typeof service !== 'string' || (service as string).trim().length === 0);
     if (invalidServices.length > 0) {
       errors.push('All services must be non-empty strings');
     }
@@ -54,15 +56,15 @@ function validateRequest(body: any): { isValid: boolean; errors: string[]; data?
   // Validate optional counts
   const counts = ['headshotCount', 'logoCount', 'serviceCount'];
   counts.forEach(count => {
-    if (body[count] !== undefined) {
-      if (!Number.isInteger(body[count]) || body[count] < 0 || body[count] > 50) {
+    if (typedBody[count] !== undefined) {
+      if (!Number.isInteger(typedBody[count]) || (typedBody[count] as number) < 0 || (typedBody[count] as number) > 50) {
         errors.push(`${count} must be an integer between 0 and 50`);
       }
     }
   });
   
   // Validate quality parameter
-  if (body.quality && !['standard', 'hd'].includes(body.quality)) {
+  if (typedBody.quality && !['standard', 'hd'].includes(typedBody.quality as string)) {
     errors.push('quality must be either "standard" or "hd"');
   }
   
@@ -74,12 +76,12 @@ function validateRequest(body: any): { isValid: boolean; errors: string[]; data?
     isValid: true,
     errors: [],
     data: {
-      brandName: body.brandName.trim(),
-      services: body.services.map((s: string) => s.trim()),
-      headshotCount: body.headshotCount || 4,
-      logoCount: body.logoCount || 8,
-      serviceCount: body.serviceCount || 12,
-      quality: body.quality || 'standard'
+      brandName: (typedBody.brandName as string).trim(),
+      services: (typedBody.services as string[]).map((s: string) => s.trim()),
+      headshotCount: (typedBody.headshotCount as number) || 4,
+      logoCount: (typedBody.logoCount as number) || 8,
+      serviceCount: (typedBody.serviceCount as number) || 12,
+      quality: (typedBody.quality as 'standard' | 'hd') || 'standard'
     }
   };
 }
@@ -105,10 +107,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<GenerateA
       );
     }
     
-    const { brandName, services, headshotCount, logoCount, serviceCount, quality } = validation.data!;
+    const { brandName, services, headshotCount, logoCount, serviceCount } = validation.data!;
     
     // Validate OpenAI connection
-    const isConnected = await validateOpenAIConfig();
+    const isConnected = await validateOpenAIConnection();
     if (!isConnected) {
       return NextResponse.json(
         { success: false, error: 'OpenAI API connection failed' },
@@ -117,11 +119,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<GenerateA
     }
     
     // Calculate and validate cost
-    const totalCost = calculateGenerationCost(headshotCount, logoCount, serviceCount);
+    const totalCost = calculateGenerationCost(headshotCount!, logoCount!, serviceCount!);
     const totalImages = headshotCount! + logoCount! + serviceCount!;
-    
-    console.log(`🚀 Starting asset generation for ${brandName}`);
-    console.log(`📊 Total images: ${totalImages}, Cost: $${totalCost.toFixed(2)}`);
     
     // Generate assets with error handling for each type
     const results = await Promise.allSettled([
@@ -147,20 +146,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<GenerateA
     // Check for partial failures
     const failures = results.filter(result => result.status === 'rejected');
     if (failures.length > 0) {
-      console.warn('⚠️ Some asset generation failed:', failures);
       response.error = `Partial success: ${failures.length} generation tasks failed`;
     }
     
-    console.log(`✅ Asset generation completed for ${brandName}`);
     return NextResponse.json(response, { status: 200 });
     
-  } catch (error) {
-    console.error('❌ Asset generation API error:', error);
-    
+  } catch (err) {
     return NextResponse.json(
       { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Internal server error' 
+        error: err instanceof Error ? err.message : 'Internal server error' 
       },
       { status: 500 }
     );
@@ -175,9 +170,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const headshotCount = parseInt(searchParams.get('headshotCount') || '4');
     const logoCount = parseInt(searchParams.get('logoCount') || '8');
     const serviceCount = parseInt(searchParams.get('serviceCount') || '12');
-    const quality = (searchParams.get('quality') || 'standard') as 'standard' | 'hd';
+    const qualityParam = searchParams.get('quality') || 'standard';
     
-    if (!['standard', 'hd'].includes(quality)) {
+    if (!['standard', 'hd'].includes(qualityParam)) {
       return NextResponse.json(
         { error: 'Invalid quality parameter' },
         { status: 400 }
@@ -195,11 +190,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         logos: { count: logoCount, cost: logoCount * 0.04 },
         services: { count: serviceCount, cost: serviceCount * 0.04 }
       },
-      quality,
-      pricePerImage: quality === 'hd' ? 0.08 : 0.04
+      quality: qualityParam,
+      pricePerImage: qualityParam === 'hd' ? 0.08 : 0.04
     });
     
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to calculate cost' },
       { status: 500 }
