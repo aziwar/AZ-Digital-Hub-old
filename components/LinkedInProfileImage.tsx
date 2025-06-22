@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import { useState } from 'react';
 
 import { imageConfig } from '@/lib/images.config';

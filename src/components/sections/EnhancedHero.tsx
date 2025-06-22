@@ -1,7 +1,6 @@
 // ENHANCED Hero - Maximum Customer Conversion Focus with Visual Enhancements
 import Image from 'next/image';
 import Link from 'next/link';
-
 import React from 'react';
 
 import { ROIChart } from '@/components/ui/ROIChart';
