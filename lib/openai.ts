@@ -42,7 +42,7 @@ export async function generateHeadshots(
       response_format: 'url'
     })
 
-    const urls = response.data.map(image => image.url).filter(Boolean) as string[]
+    const urls = response.data?.map(image => image.url).filter(Boolean) as string[] || []
     return urls
 
   } catch (error) {
@@ -68,7 +68,7 @@ export async function generateBrandLogos(
         response_format: 'url'
       })
 
-      if (response.data[0]?.url) {
+      if (response.data?.[0]?.url) {
         logoUrls.push(response.data[0].url)
       }
     }
@@ -98,7 +98,7 @@ export async function generateServiceGraphics(
         response_format: 'url'
       })
 
-      if (response.data[0]?.url) {
+      if (response.data?.[0]?.url) {
         serviceGraphics[service] = [response.data[0].url]
       }
     }
