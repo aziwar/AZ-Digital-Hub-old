@@ -34,4 +34,12 @@ yarn-error.log*
 next-env.d.ts
 
 # backup
-backup_*
+backup_*# Automation scripts with sensitive data
+automation/setup-complete.ps1
+automation/setup-env.ps1
+automation/test-api.ps1
+automation/test-env.ps1
+automation/test-generate.ps1
+
+# Generated files with API responses
+generated-images.json

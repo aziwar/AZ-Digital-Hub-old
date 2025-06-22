@@ -1,9 +1,11 @@
 // ENHANCED Hero - Maximum Customer Conversion Focus with Visual Enhancements
 import Link from 'next/link';
 import React from 'react';
+import Image from 'next/image';
 
 import { ROIChart } from '@/components/ui/ROIChart';
 import { ServiceIconGrid } from '@/components/ui/ServiceIcons';
+import { imageConfig } from '@/lib/images.config';
 
 const EnhancedHero: React.FC = () => {
   return (
@@ -111,13 +113,15 @@ const EnhancedHero: React.FC = () => {
               
               {/* Image Container */}
               <div className="relative w-full h-full">
-                <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 rounded-full border-4 border-purple-400/50 flex items-center justify-center">
-                  {/* Placeholder for professional image */}
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">👨‍💼</div>
-                    <div className="text-white font-bold">Ahmed Ziwar</div>
-                    <div className="text-purple-400 text-sm">Digital Marketing Expert</div>
-                  </div>
+                <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 rounded-full border-4 border-purple-400/50 overflow-hidden">
+                  <Image
+                    src={imageConfig.profile.profileImage}
+                    alt="Ahmed Ziwar - Digital Marketing Expert"
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
                 </div>
               </div>
             </div>
