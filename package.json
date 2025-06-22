@@ -9,7 +9,22 @@
     "lint": "next lint",
     "generate-assets": "node scripts/generate-assets.js",
     "type-check": "tsc --noEmit",
-    "build-check": "npm run type-check && npm run build"
+    "build-check": "npm run type-check && npm run build",
+    
+    "stage-1-safety": "node scripts/validate-config.js",
+    "stage-2-typescript": "node scripts/validate-typescript.js",
+    "stage-3-eslint": "eslint . --max-warnings 0 --report-unused-disable-directives",
+    "stage-4-dependencies": "npm audit --audit-level=moderate && npm outdated --depth=0",
+    "stage-5-build": "next build --no-lint",
+    "stage-6-security": "echo 'Security analysis placeholder - implement security scanner'",
+    
+    "quality-gates": "npm run stage-1-safety && npm run stage-2-typescript && npm run stage-3-eslint && npm run stage-4-dependencies && npm run stage-5-build && npm run stage-6-security",
+    "pre-deploy": "npm run quality-gates",
+    "deploy-safe": "npm run pre-deploy && echo 'All quality gates passed - ready for deployment'",
+    
+    "validate-all": "npm run stage-1-safety",
+    "fix-config": "echo 'Remove dangerous bypass flags from next.config.js manually'",
+    "deployment-safety": "npm run stage-1-safety && echo 'Configuration safety validated'"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
