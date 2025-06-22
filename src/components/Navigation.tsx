@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
+
+import React, { useState } from 'react';
+
 import { imageConfig } from '@/lib/images.config';
 
 const Navigation: React.FC = () => {
