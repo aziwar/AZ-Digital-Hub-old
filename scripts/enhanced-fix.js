@@ -38,7 +38,7 @@ class EnhancedDependencyFixer {
     };
     
     const color = colors[type] || colors.info;
-    console.log(`${color}${message}${colors.reset}`);
+    // console.log(`${color}${message}${colors.reset}`);
   }
 
   async runCommand(command, suppressOutput = false) {
@@ -177,7 +177,7 @@ class EnhancedDependencyFixer {
     } else {
       this.log('❌ Build failed', 'error');
       this.log('Build output:', 'warning');
-      console.log(buildResult.output);
+      // console.log(buildResult.output);
       return false;
     }
   }

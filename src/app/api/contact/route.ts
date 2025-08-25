@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     )
-  } catch (_error) {
+  } catch {
     
     return NextResponse.json(
       { 

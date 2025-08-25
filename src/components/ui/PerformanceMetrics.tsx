@@ -30,8 +30,8 @@ export default function PerformanceMetrics() {
       })
       
       // Measure memory if available
-      if ('memory' in performance && (performance as any).memory) {
-        const memoryUsage = (performance as any).memory.usedJSHeapSize / 1048576
+      if ('memory' in performance && (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory) {
+        const memoryUsage = (performance as unknown as { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize / 1048576
         setMemory(Math.round(memoryUsage))
       }
       

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, type JSX } from 'react'
 
 interface TypeAnimationProps {
   sequence: string[]
@@ -51,7 +51,7 @@ export default function TypeAnimation({
       } else {
         // Finished typing, wait before deleting
         setIsWaiting(true)
-        setTimeout(() => {
+        window.setTimeout(() => {
           setIsWaiting(false)
           if (!omitDeletionAnimation) {
             setIsDeleting(true)
@@ -79,13 +79,13 @@ export default function TypeAnimation({
   useEffect(() => {
     if (sequence.length === 0) return
 
-    const timeout = setTimeout(
+    const timeout = window.setTimeout(
       handleTyping,
       isDeleting ? deleteSpeed : typeSpeed
     )
 
     return () => clearTimeout(timeout)
-  }, [handleTyping, isDeleting, typeSpeed, deleteSpeed])
+  }, [handleTyping, isDeleting, typeSpeed, deleteSpeed, sequence.length])
 
   const Component = wrapper
 

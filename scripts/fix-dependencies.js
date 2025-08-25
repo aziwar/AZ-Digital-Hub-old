@@ -5,9 +5,14 @@
  * This script identifies and fixes missing dependencies, outdated packages, and build issues
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 class DependencyFixer {
   constructor() {
@@ -27,7 +32,7 @@ class DependencyFixer {
     };
     
     const color = colors[type] || colors.info;
-    console.log(`${color}${message}${colors.reset}`);
+    // // console.log(`${color}${message}${colors.reset}`);
   }
 
   async runCommand(command, suppressOutput = false) {
@@ -131,7 +136,7 @@ class DependencyFixer {
     if (!result.success) {
       this.issues.push('TypeScript compilation errors detected');
       this.log('TypeScript errors found:', 'warning');
-      console.log(result.output);
+      // // console.log(result.output);
     }
   }
 
@@ -142,7 +147,7 @@ class DependencyFixer {
     if (!result.success) {
       this.issues.push('Build command fails');
       this.log('Build errors found:', 'warning');
-      console.log(result.output);
+      // // console.log(result.output);
     }
   }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type JSX } from 'react'
 
 interface NativeTypeAnimationProps {
   sequence: string[]
@@ -37,7 +37,7 @@ export default function NativeTypeAnimation({
   const [isDeleting, setIsDeleting] = useState(false)
   const [isWaiting, setIsWaiting] = useState(false)
   const [loopCount, setLoopCount] = useState(0)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<number>(0)
 
   useEffect(() => {
     if (sequence.length === 0) return
@@ -56,11 +56,11 @@ export default function NativeTypeAnimation({
         // Typing phase
         if (displayText.length < currentString.length) {
           setDisplayText(currentString.substring(0, displayText.length + 1))
-          timeoutRef.current = setTimeout(typeNextChar, speed)
+          timeoutRef.current = window.setTimeout(typeNextChar, speed)
         } else {
           // Finished typing, wait before deleting
           setIsWaiting(true)
-          timeoutRef.current = setTimeout(() => {
+          timeoutRef.current = window.setTimeout(() => {
             setIsWaiting(false)
             if (!omitDeletionAnimation) {
               setIsDeleting(true)
@@ -80,7 +80,7 @@ export default function NativeTypeAnimation({
         // Deleting phase
         if (displayText.length > 0) {
           setDisplayText(displayText.substring(0, displayText.length - 1))
-          timeoutRef.current = setTimeout(typeNextChar, deletionSpeed)
+          timeoutRef.current = window.setTimeout(typeNextChar, deletionSpeed)
         } else {
           // Finished deleting, move to next
           setIsDeleting(false)
@@ -89,16 +89,16 @@ export default function NativeTypeAnimation({
           if (nextIndex === 0) {
             setLoopCount(prev => prev + 1)
           }
-          timeoutRef.current = setTimeout(typeNextChar, 100)
+          timeoutRef.current = window.setTimeout(typeNextChar, 100)
         }
       }
     }
 
-    timeoutRef.current = setTimeout(typeNextChar, 100)
+    timeoutRef.current = window.setTimeout(typeNextChar, 100)
 
     return () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
+        window.clearTimeout(timeoutRef.current)
       }
     }
   }, [sequence, currentIndex, displayText, isDeleting, isWaiting, speed, deletionSpeed, omitDeletionAnimation, repeat, loopCount])

@@ -20,7 +20,7 @@ files.forEach(file => {
   content = content.replace(/\|\| \[\](\s*const urls)/g, '|| []\n    $1');
   
   fs.writeFileSync(filePath, content);
-  console.log(`✅ Fixed ${file.path}`);
+  // console.log(`✅ Fixed ${file.path}`);
 });
 
 // Fix button.tsx import
@@ -29,5 +29,5 @@ if (fs.existsSync(buttonPath)) {
   let content = fs.readFileSync(buttonPath, 'utf-8');
   content = content.replace('@/lib/utils', '@/lib/utils/index');
   fs.writeFileSync(buttonPath, content);
-  console.log('✅ Fixed button.tsx import');
+  // console.log('✅ Fixed button.tsx import');
 }

@@ -36,5 +36,5 @@ fixes.forEach(({ file, fix, fixes: multipleFixes }) => {
   }
   
   fs.writeFileSync(filePath, content);
-  console.log(`✅ Fixed ${file}`);
+  // console.log(`✅ Fixed ${file}`);
 });

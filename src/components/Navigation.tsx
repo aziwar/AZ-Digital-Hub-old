@@ -1,6 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useState } from 'react';
+
+import { imageConfig } from '@/lib/images.config';
 
 const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +20,16 @@ const Navigation: React.FC = () => {
     <nav className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="text-xl font-bold text-white">AZ Digital Hub</div>
+          <div className="flex items-center space-x-2">
+            <Image
+              src={imageConfig.brand.logo}
+              alt="AZ Digital Hub"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <span className="text-xl font-bold text-white">AZ Digital Hub</span>
+          </div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">

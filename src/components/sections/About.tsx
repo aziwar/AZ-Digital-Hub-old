@@ -31,9 +31,9 @@ const About: React.FC = () => {
           <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Description */}
-          <div className="space-y-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Description - Full Width */}
+          <div className="space-y-6 text-center">
             <p className="text-lg text-gray-300 leading-relaxed">
               With over 20 years of experience in digital marketing and IT consulting, 
               I help businesses transform their online presence and achieve measurable growth. 
@@ -51,7 +51,7 @@ const About: React.FC = () => {
             {/* Skills Grid */}
             <div className="pt-6">
               <h3 className="text-xl font-semibold text-white mb-4">Core Competencies</h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center">
                 {skills.map((skill, index) => (
                   <span
                     key={index}
@@ -64,8 +64,8 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Stats */}
-          <div className="grid grid-cols-2 gap-6">
+          {/* Stats Grid - Centered */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-12">
             {stats.map((stat, index) => (
               <div
                 key={index}

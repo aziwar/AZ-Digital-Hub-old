@@ -13,8 +13,13 @@
  * - strict: false (TypeScript loose mode)
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Configuration patterns that cause systematic deployment failures
 const FORBIDDEN_PATTERNS = {
@@ -178,12 +183,13 @@ function main() {
   process.exit(0);
 }
 
-// Execute if run directly
-if (require.main === module) {
+// Execute if run directly (ESM equivalent)
+const isMainModule = import.meta.url.startsWith('file:') && process.argv[1] === __filename;
+if (isMainModule) {
   main();
 }
 
-module.exports = {
+export {
   scanConfigurationFiles,
   FORBIDDEN_PATTERNS,
   VALIDATION_RESULTS

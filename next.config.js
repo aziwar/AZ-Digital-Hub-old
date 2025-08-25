@@ -43,6 +43,11 @@ const nextConfig = {
         hostname: 'vpqhbrekfovgkcwegvxn.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.licdn.com',
+        pathname: '/dms/image/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 1 week
@@ -83,4 +88,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+export default nextConfig
