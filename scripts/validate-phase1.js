@@ -5,8 +5,14 @@
  * Validates API connection, dependencies, and cost optimization
  */
 
-const { execSync } = require('child_process');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 async function validatePhase1() {
   console.log('🚀 Phase 1 Environment Setup Validation\n');
@@ -21,7 +27,7 @@ async function validatePhase1() {
   try {
     // 1. Validate OpenAI dependency installation
     console.log('📦 Checking OpenAI dependency...');
-    const packageJson = require('../package.json');
+    const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
     
     if (packageJson.dependencies.openai) {
       console.log(`✅ OpenAI dependency: ${packageJson.dependencies.openai}`);
@@ -41,7 +47,7 @@ async function validatePhase1() {
 
     // 3. Test API connection (mock validation)
     console.log('\n🌐 Testing API endpoint structure...');
-    const fs = require('fs');
+    // fs already imported at top
     const apiPath = path.join(__dirname, '../app/api/generate-assets/route.ts');
     
     if (fs.existsSync(apiPath)) {
