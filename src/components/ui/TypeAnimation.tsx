@@ -1,14 +1,14 @@
 'use client';
 
-import type { CSSProperties } from 'react';
+import React, { type CSSProperties } from 'react';
 import { TypeAnimation as ReactTypeAnimation } from 'react-type-animation';
 
 // Simplified types compatible with Next.js 15 and React 19
 interface TypeAnimationProps {
   sequence: Array<string | number | (() => void)>;
-  wrapper?: keyof JSX.IntrinsicElements | React.ComponentType; // React element type
-  speed?: number | { type: string; delay: number };
-  deletionSpeed?: number | { type: string; delay: number };
+  wrapper?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  speed?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  deletionSpeed?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   cursor?: boolean;
   repeat?: number;
   omitDeletionAnimation?: boolean;

@@ -22,7 +22,7 @@ export async function validateOpenAIConnection(): Promise<boolean> {
 
     return true
 
-  } catch (_error) {
+  } catch {
     return false
   }
 }

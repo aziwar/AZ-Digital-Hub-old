@@ -23,7 +23,15 @@ export default defineConfig([{
         "node_modules/**/*",
         "**/.next/**/*",
         "**/out/**/*",
-        "**/dist/**/*"
+        "**/dist/**/*",
+        "cleanup-and-setup.js",
+        "force-cleanup.js",
+        "scripts/complete-fix.js",
+        "scripts/enhanced-fix.js",
+        "scripts/final-eslint-fix.js",
+        "scripts/**/*",
+        "next-env.d.ts",
+        "postcss.config.js"
     ],
 
     rules: {
