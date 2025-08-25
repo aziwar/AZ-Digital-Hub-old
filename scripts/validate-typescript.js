@@ -8,9 +8,14 @@
  * Trust Score Requirement: 8.0+ for all TypeScript validations
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // TypeScript safety configuration requirements
 const TYPESCRIPT_SAFETY_REQUIREMENTS = {
@@ -160,8 +165,10 @@ function main() {
   process.exit(0);
 }
 
-if (require.main === module) {
+// Execute if run directly (ESM equivalent)
+const isMainModule = import.meta.url.startsWith('file:') && process.argv[1] === __filename;
+if (isMainModule) {
   main();
 }
 
-module.exports = { executeTypeScriptValidation };
+export { executeTypeScriptValidation };
