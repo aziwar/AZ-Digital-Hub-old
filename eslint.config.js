@@ -15,6 +15,16 @@ const compat = new FlatCompat({
 
 export default defineConfig([{
     extends: compat.extends("next/core-web-vitals", "next/typescript"),
+    
+    ignores: [
+        ".next/**/*",
+        "out/**/*", 
+        "dist/**/*",
+        "node_modules/**/*",
+        "**/.next/**/*",
+        "**/out/**/*",
+        "**/dist/**/*"
+    ],
 
     rules: {
         "import/order": ["error", {
