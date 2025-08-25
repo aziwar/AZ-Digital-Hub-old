@@ -51,7 +51,7 @@ const EnhancedContact: React.FC = () => {
         name: '', email: '', company: '', project_type: '', 
         budget_range: '', message: '', phone: ''
       });
-    } catch (_error) {
+    } catch {
       
       setSubmitStatus('error');
     } finally {

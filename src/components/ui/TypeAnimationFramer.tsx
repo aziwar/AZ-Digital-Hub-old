@@ -85,7 +85,7 @@ export default function TypeAnimation({
     )
 
     return () => clearTimeout(timeout)
-  }, [handleTyping, isDeleting, typeSpeed, deleteSpeed])
+  }, [handleTyping, isDeleting, typeSpeed, deleteSpeed, sequence.length])
 
   const Component = wrapper
 

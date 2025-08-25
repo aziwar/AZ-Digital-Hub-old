@@ -6,9 +6,9 @@ import { TypeAnimation as ReactTypeAnimation } from 'react-type-animation';
 // Simplified types compatible with Next.js 15 and React 19
 interface TypeAnimationProps {
   sequence: Array<string | number | (() => void)>;
-  wrapper?: any; // Type issue with react-type-animation library
-  speed?: any;
-  deletionSpeed?: any;
+  wrapper?: keyof JSX.IntrinsicElements | React.ComponentType; // React element type
+  speed?: number | { type: string; delay: number };
+  deletionSpeed?: number | { type: string; delay: number };
   cursor?: boolean;
   repeat?: number;
   omitDeletionAnimation?: boolean;
