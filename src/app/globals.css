@@ -258,6 +258,22 @@ html {
     transform: none !important;
   }
   
+  /* CRITICAL: Force visibility for intersection observer content on mobile */
+  .observe-fade-in,
+  .observe-slide-left,
+  .observe-slide-right,
+  .observe-stagger-children {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure text animations are visible on mobile */
+  .text-animate-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
   /* Disable complex animations for touch performance */
   .animate-magneticPull,
   .parallaxFloat {
