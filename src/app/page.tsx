@@ -59,10 +59,10 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold mb-4">Strategic Contact</h4>
               <div className="space-y-2 text-gray-400 text-sm">
-                <p>📧 ahmedziwar@gmail.com</p>
+                <p>📧 ahmedzewar@gmail.com</p>
                 <p>📱 +965 6067 2773 (WhatsApp)</p>
                 <p>📍 Kuwait City, Kuwait</p>
-                <p>💼 linkedin.com/in/ahmedziwar</p>
+                <p>💼 linkedin.com/in/ahmedzewar</p>
               </div>
             </div>
             
@@ -92,7 +92,7 @@ export default function Home() {
           {/* Copyright */}
           <div className="text-center pt-8 border-t border-slate-800">
             <p className="text-gray-400">
-              © 2025 Ahmed Ziwar - ENTJ Commander • Strategic Digital Marketing Excellence • Kuwait & GCC
+              © 2025 Ahmed Zewar - ENTJ Commander • Strategic Digital Marketing Excellence • Kuwait & GCC
             </p>
             <p className="text-gray-500 text-sm mt-2">
               All rights reserved. Transforming businesses through strategic digital leadership since 2005.

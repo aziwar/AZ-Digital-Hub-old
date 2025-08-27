@@ -43,3 +43,8 @@ automation/test-generate.ps1
 
 # Generated files with API responses
 generated-images.json
+# Development tools
+.serena/
+.claude/
+nul
+*.backup

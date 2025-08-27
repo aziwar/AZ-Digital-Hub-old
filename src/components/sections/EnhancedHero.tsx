@@ -9,20 +9,9 @@ import { imageConfig } from '@/lib/images.config';
 
 const EnhancedHero: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-slate-900 to-purple-900 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-slate-900 overflow-hidden">
       
-      {/* Strategic Background Pattern */}
-      <div className="absolute inset-0 bg-grid-white/[0.03] bg-[size:60px_60px]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-      
-      {/* Kuwait Skyline Background */}
-      <div className="absolute inset-0 bg-[url('/images/kuwait-skyline.webp')] opacity-10 bg-cover bg-center mix-blend-overlay" />
-      
-      {/* Floating Elements for Visual Interest */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid lg:grid-cols-12 gap-8 items-center">
           
@@ -36,16 +25,16 @@ const EnhancedHero: React.FC = () => {
             </div>
 
             {/* Commanding Headlines */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-6">
-              <span className="block">Ahmed Ziwar</span>
-              <span className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-6 text-animate-reveal">
+              <span className="block" style={{ "--animation-delay": "0.2s" } as React.CSSProperties}>Ahmed Zewar</span>
+              <span className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-hover-glow" style={{ "--animation-delay": "0.4s" } as React.CSSProperties}>
                 Commands Results
               </span>
             </h1>
             
             {/* VALUE PROPOSITION */}
-            <div className="mb-8">
-              <h2 className="text-xl md:text-3xl font-bold text-gray-200 mb-4">
+            <div className="mb-8 text-animate-reveal" style={{ "--animation-delay": "0.6s" } as React.CSSProperties}>
+              <h2 className="text-xl md:text-3xl font-bold text-gray-200 mb-4 text-hover-glow">
                 Kuwait&apos;s #1 Digital Marketing Strategist
               </h2>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
@@ -60,10 +49,10 @@ const EnhancedHero: React.FC = () => {
             </div>
 
             {/* PRIMARY CTAs */}
-            <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-animate-reveal" style={{ "--animation-delay": "0.8s" } as React.CSSProperties}>
               <Link
                 href="#contact"
-                className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white text-lg font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 border border-purple-500"
+                className="group btn-magnetic btn-pulse px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-purple-500/50 border border-purple-500 focus-enhanced"
               >
                 <span className="flex items-center justify-center">
                   🚀 Book FREE Strategic Session
@@ -76,7 +65,7 @@ const EnhancedHero: React.FC = () => {
                 href="https://wa.me/96560672773?text=Hi Ahmed, I need urgent strategic consultation for my business"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50"
+                className="group btn-magnetic px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-green-500/50 focus-enhanced"
               >
                 <span className="flex items-center justify-center">
                   💬 WhatsApp Instant Response
@@ -116,7 +105,7 @@ const EnhancedHero: React.FC = () => {
                 <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 rounded-full border-4 border-purple-400/50 overflow-hidden">
                   <Image
                     src={imageConfig.profile.profileImage}
-                    alt="Ahmed Ziwar - Digital Marketing Expert"
+                    alt="Ahmed Zewar - Digital Marketing Expert"
                     width={400}
                     height={400}
                     className="w-full h-full object-cover"

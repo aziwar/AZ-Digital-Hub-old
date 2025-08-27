@@ -35,7 +35,7 @@ const Testimonials: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Testimonials</h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Hear from clients who have partnered with Ahmed Ziwar to elevate their digital presence.
+            Hear from clients who have partnered with Ahmed Zewar to elevate their digital presence.
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

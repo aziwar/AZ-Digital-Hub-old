@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Ahmed Ziwar | Digital Marketing Manager',
+  title: 'Ahmed Zewar | Digital Marketing Manager',
   description: 'Experienced Digital Marketing Manager and IT Consultant in Kuwait. Specializing in ROI-driven campaigns, e-commerce solutions, and strategic business growth.',
 }
 

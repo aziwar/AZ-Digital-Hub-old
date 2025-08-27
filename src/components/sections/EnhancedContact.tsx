@@ -1,7 +1,7 @@
 'use client';
 
 import emailjs from '@emailjs/browser';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EnhancedContact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,16 +16,96 @@ const EnhancedContact: React.FC = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [focusedField, setFocusedField] = useState<string>('');
+  const [fieldTouched, setFieldTouched] = useState<Record<string, boolean>>({});
+
+  // Real-time validation functions
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return 'Name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        return '';
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
+        return '';
+      case 'project_type':
+        if (!value) return 'Please select a project type';
+        return '';
+      case 'budget_range':
+        if (!value) return 'Please select a budget range';
+        return '';
+      case 'message':
+        if (!value.trim()) return 'Please describe your strategic objectives';
+        if (value.trim().length < 20) return 'Please provide more details (minimum 20 characters)';
+        return '';
+      case 'phone':
+        if (value && !/^\+?[1-9]\d{1,14}$/.test(value.replace(/\s/g, ''))) {
+          return 'Please enter a valid phone number';
+        }
+        return '';
+      default:
+        return '';
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Real-time validation
+    if (fieldTouched[name]) {
+      const error = validateField(name, value);
+      setFieldErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    setFieldTouched(prev => ({ ...prev, [name]: true }));
+    setFocusedField('');
+    
+    const error = validateField(name, value);
+    setFieldErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFocusedField(e.target.name);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate all fields
+    const errors: Record<string, string> = {};
+    Object.keys(formData).forEach(key => {
+      if (key !== 'company') { // company is optional
+        const error = validateField(key, formData[key as keyof typeof formData]);
+        if (error) errors[key] = error;
+      }
+    });
+
+    setFieldErrors(errors);
+    setFieldTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -41,7 +121,7 @@ const EnhancedContact: React.FC = () => {
           budget_range: formData.budget_range,
           phone: formData.phone,
           message: formData.message,
-          to_name: 'Ahmed Ziwar'
+          to_name: 'Ahmed Zewar'
         },
         'vFeXiuswX_-hBd6vM12zz'  // Public Key
       );
@@ -142,9 +222,15 @@ const EnhancedContact: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Name *
+                <div className="relative">
+                  <label htmlFor="name" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'name' || formData.name 
+                      ? 'text-purple-400' 
+                      : fieldErrors.name 
+                        ? 'text-red-400' 
+                        : 'text-gray-300'
+                  }`}>
+                    Your Name * {fieldErrors.name && '⚠️'}
                   </label>
                   <input
                     type="text"
@@ -152,14 +238,33 @@ const EnhancedContact: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-all duration-200 focus-enhanced ${
+                      fieldErrors.name 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'name' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
                     placeholder="Ahmed Al-Rashid"
                   />
+                  {fieldErrors.name && (
+                    <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                      {fieldErrors.name}
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Business Email *
+                <div className="relative">
+                  <label htmlFor="email" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'email' || formData.email 
+                      ? 'text-purple-400' 
+                      : fieldErrors.email 
+                        ? 'text-red-400' 
+                        : 'text-gray-300'
+                  }`}>
+                    Business Email * {fieldErrors.email && '⚠️'}
                   </label>
                   <input
                     type="email"
@@ -167,16 +272,33 @@ const EnhancedContact: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-all duration-200 focus-enhanced ${
+                      fieldErrors.email 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'email' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
                     placeholder="ahmed@company.com"
                   />
+                  {fieldErrors.email && (
+                    <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                      {fieldErrors.email}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+                <div className="relative">
+                  <label htmlFor="company" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'company' || formData.company 
+                      ? 'text-purple-400' 
+                      : 'text-gray-300'
+                  }`}>
                     Company/Organization
                   </label>
                   <input
@@ -185,13 +307,25 @@ const EnhancedContact: React.FC = () => {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-all duration-200 focus-enhanced ${
+                      focusedField === 'company' 
+                        ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                        : 'border-slate-600 focus:border-purple-500'
+                    }`}
                     placeholder="Al-Rashid Trading Co."
                   />
                 </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                    WhatsApp Number
+                <div className="relative">
+                  <label htmlFor="phone" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'phone' || formData.phone 
+                      ? 'text-purple-400' 
+                      : fieldErrors.phone 
+                        ? 'text-red-400' 
+                        : 'text-gray-300'
+                  }`}>
+                    WhatsApp Number {fieldErrors.phone && '⚠️'}
                   </label>
                   <input
                     type="tel"
@@ -199,73 +333,159 @@ const EnhancedContact: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-all duration-200 focus-enhanced ${
+                      fieldErrors.phone 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'phone' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
                     placeholder="+965 XXXX XXXX"
                   />
+                  {fieldErrors.phone && (
+                    <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                      {fieldErrors.phone}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="project_type" className="block text-sm font-medium text-gray-300 mb-2">
-                    Project Type *
+                <div className="relative">
+                  <label htmlFor="project_type" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'project_type' || formData.project_type 
+                      ? 'text-purple-400' 
+                      : fieldErrors.project_type 
+                        ? 'text-red-400' 
+                        : 'text-gray-300'
+                  }`}>
+                    Project Type * {fieldErrors.project_type && '⚠️'}
                   </label>
                   <select
                     id="project_type"
                     name="project_type"
                     value={formData.project_type}
                     onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white focus:outline-none transition-all duration-200 focus-enhanced ${
+                      fieldErrors.project_type 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'project_type' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
                   >
                     <option value="">Select Project Type</option>
                     {projectTypes.map((type) => (
                       <option key={type} value={type}>{type}</option>
                     ))}
                   </select>
+                  {fieldErrors.project_type && (
+                    <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                      {fieldErrors.project_type}
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <label htmlFor="budget_range" className="block text-sm font-medium text-gray-300 mb-2">
-                    Investment Range *
+                <div className="relative">
+                  <label htmlFor="budget_range" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                    focusedField === 'budget_range' || formData.budget_range 
+                      ? 'text-purple-400' 
+                      : fieldErrors.budget_range 
+                        ? 'text-red-400' 
+                        : 'text-gray-300'
+                  }`}>
+                    Investment Range * {fieldErrors.budget_range && '⚠️'}
                   </label>
                   <select
                     id="budget_range"
                     name="budget_range"
                     value={formData.budget_range}
                     onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white focus:outline-none transition-all duration-200 focus-enhanced ${
+                      fieldErrors.budget_range 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'budget_range' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
                   >
                     <option value="">Select Budget Range</option>
                     {budgetRanges.map((range) => (
                       <option key={range} value={range}>{range}</option>
                     ))}
                   </select>
+                  {fieldErrors.budget_range && (
+                    <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                      {fieldErrors.budget_range}
+                    </div>
+                  )}
                 </div>
               </div>
               
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Strategic Objectives *
+              <div className="relative">
+                <label htmlFor="message" className={`block text-sm font-medium transition-all duration-200 mb-2 ${
+                  focusedField === 'message' || formData.message 
+                    ? 'text-purple-400' 
+                    : fieldErrors.message 
+                      ? 'text-red-400' 
+                      : 'text-gray-300'
+                }`}>
+                  Strategic Objectives * {fieldErrors.message && '⚠️'}
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
-                  placeholder="Describe your current challenges and business goals..."
-                />
+                <div className="relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    required
+                    rows={4}
+                    className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-all duration-200 resize-none focus-enhanced ${
+                      fieldErrors.message 
+                        ? 'border-red-500 focus:border-red-400 animate-shake' 
+                        : focusedField === 'message' 
+                          ? 'border-purple-500 focus:border-purple-400 shadow-lg shadow-purple-500/20' 
+                          : 'border-slate-600 focus:border-purple-500'
+                    }`}
+                    placeholder="Describe your current challenges and business goals..."
+                  />
+                  <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+                    {formData.message.length}/500
+                  </div>
+                </div>
+                {fieldErrors.message && (
+                  <div className="absolute -bottom-6 left-0 text-red-400 text-xs animate-slideInUp">
+                    {fieldErrors.message}
+                  </div>
+                )}
               </div>
               
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 disabled:opacity-50 disabled:transform-none"
+                className={`w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-bold rounded-lg shadow-lg focus-enhanced disabled:opacity-50 disabled:cursor-not-allowed ${ 
+                  submitStatus === 'success' 
+                    ? 'animate-successPulse bg-gradient-to-r from-green-600 to-green-700' 
+                    : isSubmitting 
+                      ? 'animate-pulse cursor-wait' 
+                      : 'btn-magnetic hover:shadow-purple-500/50'
+                }`}
               >
-                {isSubmitting ? '⚡ Booking Your Strategic Session...' : '🚀 Book FREE Strategic Session (Worth 2,000 KWD)'}
+                {submitStatus === 'success' 
+                  ? '✅ Strategic Session Booked!' 
+                  : isSubmitting 
+                    ? '⚡ Booking Your Strategic Session...' 
+                    : '🚀 Book FREE Strategic Session (Worth 2,000 KWD)'
+                }
               </button>
             </form>
           </div>
@@ -349,8 +569,8 @@ const EnhancedContact: React.FC = () => {
                 <span className="text-2xl">📧</span>
                 <div>
                   <h5 className="text-sm font-medium text-gray-400">Email</h5>
-                  <a href="mailto:ahmedziwar@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
-                    ahmedziwar@gmail.com
+                  <a href="mailto:ahmedzewar@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+                    ahmedzewar@gmail.com
                   </a>
                 </div>
               </div>
@@ -360,12 +580,12 @@ const EnhancedContact: React.FC = () => {
                 <div>
                   <h5 className="text-sm font-medium text-gray-400">LinkedIn</h5>
                   <a 
-                    href="https://www.linkedin.com/in/ahmedziwar" 
+                    href="https://www.linkedin.com/in/ahmedzewar" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    linkedin.com/in/ahmedziwar
+                    linkedin.com/in/ahmedzewar
                   </a>
                 </div>
               </div>

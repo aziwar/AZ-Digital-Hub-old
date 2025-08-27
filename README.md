@@ -29,7 +29,7 @@
 ```
 /public
   /images
-    - ahmed-ziwar-profile.jpeg (Professional headshot)
+    - ahmed-zewar-profile.jpeg (Professional headshot)
     - AMZ-logo-tr.png (Brand logo)
 /lib
   - images.config.js (Centralized image configuration)
@@ -58,7 +58,7 @@
 
 ## 🏢 ABOUT AZ-Digital-Hub
 
-Professional portfolio website for **Ahmed Ziwar** - Digital Marketing Manager & IT Consultant based in Kuwait.
+Professional portfolio website for **Ahmed Zewar** - Digital Marketing Manager & IT Consultant based in Kuwait.
 
 ### Core Services
 - **Digital Marketing Strategy** - ROI-driven campaigns and lead generation
@@ -129,11 +129,11 @@ npm start
 
 ## 👨‍💼 CONTACT
 
-**Ahmed Ziwar**  
+**Ahmed Zewar**  
 Digital Marketing Manager | IT Consultant  
 📍 Kuwait  
-📧 ahmedziwar@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/ahmedziwar)
+📧 ahmedzewar@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/ahmedzewar)
 
 ---
 

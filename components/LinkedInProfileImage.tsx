@@ -16,7 +16,7 @@ export function LinkedInProfileImage({ className = '', width = 400, height = 400
     <div className={`relative ${className}`}>
       <Image
         src={imageUrl}
-        alt="Ahmed Ziwar - Digital Marketing Expert"
+        alt="Ahmed Zewar - Digital Marketing Expert"
         width={width}
         height={height}
         className="rounded-full object-cover"

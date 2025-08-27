@@ -21,7 +21,7 @@ const Hero: React.FC = () => {
 
         {/* Confident Commander Title */}
         <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tight leading-tight">
-          Ahmed Ziwar
+          Ahmed Zewar
         </h1>
         
         {/* ROI-Driven Positioning */}
@@ -69,7 +69,7 @@ const Hero: React.FC = () => {
         {/* Professional Network */}
         <div className="flex justify-center gap-8 mt-10">
           <a
-            href="https://www.linkedin.com/in/ahmedziwar"
+            href="https://www.linkedin.com/in/ahmedzewar"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 text-gray-300 hover:text-purple-400 transition-colors duration-200 font-medium"
@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
             <span>LinkedIn Network</span>
           </a>
           <a
-            href="mailto:ahmedziwar@gmail.com"
+            href="mailto:ahmedzewar@gmail.com"
             className="flex items-center space-x-2 text-gray-300 hover:text-purple-400 transition-colors duration-200 font-medium"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

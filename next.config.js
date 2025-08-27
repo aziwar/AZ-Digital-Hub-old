@@ -19,8 +19,11 @@ const nextConfig = {
   
   // Image optimization for Vercel + OpenAI DALL-E 3
   images: {
-    domains: ['localhost'],
     remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -56,8 +59,8 @@ const nextConfig = {
   // Environment variables
   env: {
     SITE_URL: process.env.SITE_URL || 'https://az-digital-hub-ahmed-zewars-projects.vercel.app',
-    SITE_NAME: 'AZ Digital Hub - Ahmed Ziwar',
-    SITE_DESCRIPTION: 'Ahmed Ziwar - Strategic Digital Marketing Commander | ROI-Driven Solutions for Kuwait & GCC',
+    SITE_NAME: 'AZ Digital Hub - Ahmed Zewar',
+    SITE_DESCRIPTION: 'Ahmed Zewar - Strategic Digital Marketing Commander | ROI-Driven Solutions for Kuwait & GCC',
   },
 
   // Security and performance headers

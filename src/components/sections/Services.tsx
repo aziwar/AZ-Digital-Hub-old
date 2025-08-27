@@ -1,7 +1,14 @@
+'use client'
+
 // ENTJ Commander Services - Strategic Leadership Solutions
 import React from 'react';
+import { useScrollObserver } from '@/hooks/useScrollObserver';
 
 const Services: React.FC = () => {
+  const { elementRef: sectionRef, isVisible: sectionVisible } = useScrollObserver({ threshold: 0.2 })
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollObserver({ threshold: 0.3 })
+  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollObserver({ threshold: 0.4 })
+
   const services = [
     {
       icon: "⚡",
@@ -48,29 +55,47 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="py-24 px-4 bg-gradient-to-b from-slate-900 to-purple-900/20">
+    <>
+      {/* Section Divider */}
+      <div className="section-divider mx-auto max-w-4xl" />
+      
+      <section 
+        id="services" 
+        ref={sectionRef as React.RefObject<HTMLElement>}
+        className={`py-24 px-4 bg-gradient-to-b from-slate-900 to-purple-900/20 transition-all duration-1000 ${
+          sectionVisible ? 'observe-fade-in is-visible' : 'observe-fade-in'
+        }`}
+      >
       <div className="max-w-7xl mx-auto">
         
         {/* Commander Leadership Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center space-x-3 bg-purple-600/20 backdrop-blur border border-purple-400/30 rounded-full px-6 py-3 mb-6">
+        <div 
+          ref={headerRef as React.RefObject<HTMLDivElement>}
+          className={`text-center mb-20 transition-all duration-800 ${
+            headerVisible ? 'observe-slide-left is-visible' : 'observe-slide-left'
+          }`}
+        >
+          <div className="inline-flex items-center space-x-3 bg-purple-600/20 backdrop-blur border border-purple-400/30 rounded-full px-6 py-3 mb-6 animate-fade-in-up">
             <span className="text-purple-300 font-bold">Strategic Solutions • Proven Results</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 text-animate-reveal text-hover-glow">
             Command Excellence
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed text-animate-reveal" style={{ "--animation-delay": "0.2s" } as React.CSSProperties}>
             Strategic digital leadership that transforms vision into measurable results. 
             <span className="text-purple-400 font-semibold"> No compromise on performance.</span>
           </p>
         </div>
 
         {/* Strategic Services Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+        <div className={`grid lg:grid-cols-2 gap-8 mb-16 transition-all duration-1000 ${
+          sectionVisible ? 'observe-stagger-children is-visible' : 'observe-stagger-children'
+        }`}>
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-xl p-8 hover:bg-slate-800/60 hover:border-purple-500/50 transition-all duration-300 group"
+              className="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-xl p-8 hover:bg-slate-800/60 hover:border-purple-500/50 transition-all duration-300 group animate-stagger btn-enhanced"
+              style={{ "--stagger-delay": `${index * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-start space-x-4">
                 <div className="text-4xl flex-shrink-0">{service.icon}</div>
@@ -101,7 +126,12 @@ const Services: React.FC = () => {
         </div>
 
         {/* Commander CTA */}
-        <div className="text-center bg-gradient-to-r from-purple-900/50 to-slate-900/50 backdrop-blur-md border border-purple-500/30 rounded-2xl p-12">
+        <div 
+          ref={ctaRef as React.RefObject<HTMLDivElement>}
+          className={`text-center bg-gradient-to-r from-purple-900/50 to-slate-900/50 backdrop-blur-md border border-purple-500/30 rounded-2xl p-12 transition-all duration-800 ${
+            ctaVisible ? 'observe-slide-right is-visible' : 'observe-slide-right'
+          }`}
+        >
           <h3 className="text-3xl font-bold text-white mb-4">
             Ready to Command Your Market?
           </h3>
@@ -111,20 +141,21 @@ const Services: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#contact"
-              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-lg hover:shadow-purple-500/50 btn-magnetic focus-enhanced"
             >
               Strategic Consultation →
             </a>
             <a
               href="#portfolio"
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-lg border border-purple-400/30 transition-all duration-200"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-lg border border-purple-400/30 btn-magnetic focus-enhanced"
             >
               View Success Stories
             </a>
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
 

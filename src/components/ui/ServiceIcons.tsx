@@ -26,10 +26,10 @@ export const ServiceIcon: React.FC<ServiceIconProps> = ({ name, className = "w-6
   const IconComponent = iconMap[name as keyof typeof iconMap];
   
   if (!IconComponent) {
-    return <CodeBracketIcon className={className} />;
+    return <CodeBracketIcon className={className} width={32} height={32} />;
   }
   
-  return <IconComponent className={className} />;
+  return <IconComponent className={className} width={32} height={32} />;
 };
 
 // ServiceIconGrid Component - Previously Missing Export

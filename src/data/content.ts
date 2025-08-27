@@ -1,6 +1,6 @@
 export const content = {
   hero: {
-    title: "Ahmed Ziwar",
+    title: "Ahmed Zewar",
     subtitle: "Digital Marketing Manager"
   }
 };
