@@ -219,6 +219,63 @@ html {
   }
 }
 
+/* Enhanced Mobile Device Support */
+@supports not (backdrop-filter: blur(1px)) {
+  /* Fallback for browsers without backdrop-filter support */
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    background-color: rgba(15, 23, 42, 0.85);
+  }
+}
+
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  /* Safari iOS support */
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Primary touch devices (phones, tablets without precision pointing) */
+  .btn-magnetic:hover,
+  .btn-enhanced:hover {
+    transform: none !important;
+    animation: none !important;
+  }
+  
+  .hover\:scale-105:hover,
+  .hover\:scale-102:hover,
+  .group:hover .group-hover\:scale-105 {
+    transform: none !important;
+  }
+  
+  /* Disable complex animations for touch performance */
+  .animate-magneticPull,
+  .parallaxFloat {
+    animation: none !important;
+  }
+  
+  /* Optimize infinite animations */
+  .animate-pulse {
+    animation-duration: 2s;
+  }
+  
+  /* Reduce complex shadows and effects */
+  .hover\:shadow-lg:hover,
+  .hover\:shadow-purple-500\/20:hover {
+    box-shadow: none !important;
+  }
+}
+
 /* Mobile-First Responsive Enhancements */
 @media (max-width: 640px) {
   /* Touch Target Optimization */
@@ -245,6 +302,48 @@ html {
   html {
     -webkit-overflow-scrolling: touch;
   }
+  
+  /* Disable backdrop-filter for older mobile browsers */
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    backdrop-filter: none;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Optimize animations for mobile performance */
+  .btn-magnetic:hover {
+    transform: none;
+    animation: none;
+  }
+  
+  /* Reduce complex shadows on mobile */
+  .hover\:shadow-lg {
+    box-shadow: none;
+  }
+  
+  /* Optimize blur effects */
+  .blur-lg {
+    filter: none;
+    opacity: 0.7;
+  }
+  
+  /* Disable infinite animations on mobile for battery */
+  .animate-magneticPull {
+    animation: none;
+  }
+  
+  /* Touch-friendly hover states */
+  .group:hover .group-hover\:scale-105 {
+    transform: none;
+  }
+  
+  /* Optimize complex gradients */
+  .bg-gradient-to-r {
+    background-image: none;
+    background-color: rgba(51, 65, 85, 0.6);
+  }
 }
 
 @media (max-width: 768px) {
@@ -257,6 +356,25 @@ html {
   .focus-enhanced:focus {
     outline-width: 3px;
     outline-offset: 3px;
+  }
+  
+  /* Reduce backdrop blur complexity */
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Optimize performance for mid-range devices */
+  .parallaxFloat {
+    animation: none;
+  }
+  
+  /* Disable complex transforms on touch devices */
+  .hover\:scale-105:hover {
+    transform: scale(1);
+  }
+  
+  .hover\:scale-102:hover {
+    transform: scale(1);
   }
 }
 
@@ -298,6 +416,53 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgb(168 85 247), rgb(96 165 250));
+}
+
+/* iOS Safari Mobile Optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific optimizations */
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  
+  /* Optimize transform performance */
+  .btn-magnetic,
+  .btn-enhanced {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Fix iOS scroll issues */
+  .overflow-auto,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Android Chrome Mobile Optimizations */
+@media screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 1) {
+  /* Android-specific optimizations */
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Optimize for lower-end Android devices */
+  .animate-bounce,
+  .animate-pulse {
+    animation-duration: 1.5s;
+  }
+  
+  /* Reduce complex transforms for performance */
+  .transform,
+  .scale-105,
+  .scale-102 {
+    will-change: auto;
+  }
 }
 
 /* Phase 2: Enhanced Form Interaction Animations */
