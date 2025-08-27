@@ -3,6 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Digital Marketing Hub - Professional digital marketing services by Ahmed Zewar",
+  "author": "Ahmed Zewar <ahmed@zewar.xyz>",
+  "homepage": "https://az-digital-hub.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aziwar/AZ-Digital-Hub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aziwar/AZ-Digital-Hub/issues",
+    "email": "ahmed@zewar.xyz"
+  },
+  "keywords": ["digital-marketing", "next.js", "tailwind", "typescript", "seo", "social-media"],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

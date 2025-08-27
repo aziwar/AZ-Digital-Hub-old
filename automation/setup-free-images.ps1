@@ -19,7 +19,7 @@ $imageConfig = @'
 export const imageConfig = {
   // LinkedIn Profile - Auto-updates when you change your LinkedIn photo
   profile: {
-    linkedin: "https://www.linkedin.com/in/ahmedziwar",
+    linkedin: "https://www.linkedin.com/in/ahmedziwar/",
     // Fallback professional headshot from Unsplash
     fallback: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80"
   },

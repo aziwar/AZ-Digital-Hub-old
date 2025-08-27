@@ -132,8 +132,8 @@ npm start
 **Ahmed Zewar**  
 Digital Marketing Manager | IT Consultant  
 📍 Kuwait  
-📧 ahmedzewar@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/ahmedzewar)
+📧 ahmed@zewar.xyz  
+🔗 [LinkedIn](https://www.linkedin.com/in/ahmedziwar/)
 
 ---
 

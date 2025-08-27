@@ -213,8 +213,8 @@ EMAILJS_PUBLIC_KEY=your_public_key
 
 **Ahmed Ziwar**  
 - 🌐 **Website:** [az-digital-hub.vercel.app](https://az-digital-hub.vercel.app)
-- 📧 **Email:** [ahmedzewar@gmail.com](mailto:ahmedzewar@gmail.com)
-- 💼 **LinkedIn:** [Ahmed Ziwar](https://linkedin.com/in/ahmed-ziwar)
+- 📧 **Email:** [ahmed@zewar.xyz](mailto:ahmed@zewar.xyz)
+- 💼 **LinkedIn:** [Ahmed Ziwar](https://www.linkedin.com/in/ahmedziwar/)
 - 🏢 **Location:** Kuwait City, Kuwait
 
 ---

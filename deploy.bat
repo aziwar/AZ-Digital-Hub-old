@@ -142,6 +142,6 @@ echo.
 echo 🎉 Deployment process completed!
 echo.
 echo 📚 Need help? Check the README.md for detailed instructions.
-echo 📧 Questions? Contact: ahmedziwar@gmail.com
+echo 📧 Questions? Contact: ahmed@zewar.xyz
 
 pause

@@ -27,7 +27,7 @@ export interface ImageConfig {
 export const imageConfig: ImageConfig = {
   // Profile Image - Stored locally
   profile: {
-    linkedin: "https://www.linkedin.com/in/ahmedzewar",
+    linkedin: "https://www.linkedin.com/in/ahmedziwar/",
     profileImage: "/images/ahmed-zewar-profile.jpeg", // Local profile image
     fallback: "/images/ahmed-zewar-profile.jpeg"
   },

@@ -59,10 +59,10 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold mb-4">Strategic Contact</h4>
               <div className="space-y-2 text-gray-400 text-sm">
-                <p>📧 ahmedzewar@gmail.com</p>
+                <p>📧 ahmed@zewar.xyz</p>
                 <p>📱 +965 6067 2773 (WhatsApp)</p>
                 <p>📍 Kuwait City, Kuwait</p>
-                <p>💼 linkedin.com/in/ahmedzewar</p>
+                <p>💼 linkedin.com/in/ahmedziwar</p>
               </div>
             </div>
             

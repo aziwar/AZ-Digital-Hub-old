@@ -28,8 +28,8 @@ const Contact: React.FC = () => {
     {
       icon: "📧",
       title: "Email",
-      value: "ahmedzewar@gmail.com",
-      link: "mailto:ahmedzewar@gmail.com"
+      value: "ahmed@zewar.xyz",
+      link: "mailto:ahmed@zewar.xyz"
     },
     {
       icon: "📱",
@@ -46,8 +46,8 @@ const Contact: React.FC = () => {
     {
       icon: "💼",
       title: "LinkedIn",
-      value: "linkedin.com/in/ahmedzewar",
-      link: "https://www.linkedin.com/in/ahmedzewar"
+      value: "linkedin.com/in/ahmedziwar",
+      link: "https://www.linkedin.com/in/ahmedziwar/"
     }
   ];
 

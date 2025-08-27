@@ -569,8 +569,8 @@ const EnhancedContact: React.FC = () => {
                 <span className="text-2xl">📧</span>
                 <div>
                   <h5 className="text-sm font-medium text-gray-400">Email</h5>
-                  <a href="mailto:ahmedzewar@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
-                    ahmedzewar@gmail.com
+                  <a href="mailto:ahmed@zewar.xyz" className="text-blue-400 hover:text-blue-300 transition-colors">
+                    ahmed@zewar.xyz
                   </a>
                 </div>
               </div>
@@ -580,12 +580,12 @@ const EnhancedContact: React.FC = () => {
                 <div>
                   <h5 className="text-sm font-medium text-gray-400">LinkedIn</h5>
                   <a 
-                    href="https://www.linkedin.com/in/ahmedzewar" 
+                    href="https://www.linkedin.com/in/ahmedziwar/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    linkedin.com/in/ahmedzewar
+                    linkedin.com/in/ahmedziwar
                   </a>
                 </div>
               </div>

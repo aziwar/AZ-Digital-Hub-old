@@ -85,7 +85,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host ""
     Write-Host "If you haven't set up GitHub credentials, try:" -ForegroundColor Yellow
     Write-Host "1. git config --global user.name 'Ahmed Ziwar'" -ForegroundColor Cyan
-    Write-Host "2. git config --global user.email 'ahmedziwar@gmail.com'" -ForegroundColor Cyan
+    Write-Host "2. git config --global user.email 'ahmed@zewar.xyz'" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "For authentication issues, you may need a Personal Access Token:" -ForegroundColor Yellow
     Write-Host "https://github.com/settings/tokens" -ForegroundColor Cyan
