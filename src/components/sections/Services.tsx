@@ -99,9 +99,9 @@ const Services: React.FC = () => {
               style={{ "--stagger-delay": `${index * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-start space-x-4">
-                <div className="text-4xl flex-shrink-0">{service.icon}</div>
+                <div className="text-4xl flex-shrink-0 service-icon">{service.icon}</div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors service-title">
                     {service.title}
                   </h3>
                   <div className="mb-4">
@@ -109,13 +109,13 @@ const Services: React.FC = () => {
                       <span className="text-purple-300 text-sm font-semibold">{service.results}</span>
                     </div>
                   </div>
-                  <p className="text-gray-300 mb-6 text-lg leading-relaxed">
+                  <p className="text-gray-300 mb-6 text-lg leading-relaxed service-description">
                     {service.description}
                   </p>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3 services-features-grid">
                     {service.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center text-sm text-gray-300">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                      <div key={idx} className="flex items-center text-sm text-gray-300 service-feature-text">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full mr-3 feature-bullet"></div>
                         {feature}
                       </div>
                     ))}
