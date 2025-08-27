@@ -2,6 +2,7 @@
 
 // ENTJ Commander Services - Strategic Leadership Solutions
 import React from 'react';
+
 import { useScrollObserver } from '@/hooks/useScrollObserver';
 
 const Services: React.FC = () => {

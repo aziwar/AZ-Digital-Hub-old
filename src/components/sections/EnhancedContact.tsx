@@ -1,7 +1,7 @@
 'use client';
 
 import emailjs from '@emailjs/browser';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const EnhancedContact: React.FC = () => {
   const [formData, setFormData] = useState({

@@ -13,13 +13,7 @@ interface ROIMetric {
   timeline?: string
 }
 
-export function ROIChart() {
-  const [selectedMetric, setSelectedMetric] = useState<string | null>(null)
-  const [animatedWidths, setAnimatedWidths] = useState<number[]>([])
-  const [isVisible, setIsVisible] = useState(false)
-  const chartRef = useRef<HTMLDivElement>(null)
-  
-  const metrics: ROIMetric[] = [
+const metrics: ROIMetric[] = [
     {
       category: 'E-commerce Optimization',
       percentage: 340,
@@ -57,6 +51,12 @@ export function ROIChart() {
       timeline: '6-12 months average'
     }
   ]
+
+export function ROIChart() {
+  const [selectedMetric, setSelectedMetric] = useState<string | null>(null)
+  const [animatedWidths, setAnimatedWidths] = useState<number[]>([])
+  const [_isVisible, setIsVisible] = useState(false)
+  const chartRef = useRef<HTMLDivElement>(null)
 
   // Intersection Observer for animations
   useEffect(() => {

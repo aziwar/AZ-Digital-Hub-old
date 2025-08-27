@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+
 import { useScrollProgress } from '@/hooks/useScrollObserver'
 
 export function ScrollProgress() {
