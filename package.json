@@ -14,7 +14,14 @@
     "url": "https://github.com/aziwar/AZ-Digital-Hub/issues",
     "email": "ahmed@zewar.xyz"
   },
-  "keywords": ["digital-marketing", "next.js", "tailwind", "typescript", "seo", "social-media"],
+  "keywords": [
+    "digital-marketing",
+    "next.js",
+    "tailwind",
+    "typescript",
+    "seo",
+    "social-media"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -46,6 +53,8 @@
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@types/node": "^24.3.0",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
