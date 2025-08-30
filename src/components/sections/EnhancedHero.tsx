@@ -11,7 +11,7 @@ const EnhancedHero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-slate-900 overflow-hidden">
       
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         
         <div className="grid lg:grid-cols-12 gap-8 items-center">
           
@@ -25,7 +25,7 @@ const EnhancedHero: React.FC = () => {
             </div>
 
             {/* Commanding Headlines */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-6 text-animate-reveal">
+            <h1 className="hero-title text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-6 text-animate-reveal">
               <span className="block" style={{ "--animation-delay": "0.2s" } as React.CSSProperties}>Ahmed Zewar</span>
               <span className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-hover-glow" style={{ "--animation-delay": "0.4s" } as React.CSSProperties}>
                 Commands Results
@@ -34,10 +34,10 @@ const EnhancedHero: React.FC = () => {
             
             {/* VALUE PROPOSITION */}
             <div className="mb-8 text-animate-reveal" style={{ "--animation-delay": "0.6s" } as React.CSSProperties}>
-              <h2 className="text-xl md:text-3xl font-bold text-gray-200 mb-4 text-hover-glow">
+              <h2 className="hero-subtitle text-xl md:text-3xl font-bold text-gray-200 mb-4 text-hover-glow">
                 Kuwait&apos;s #1 Digital Marketing Strategist
               </h2>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              <p className="hero-description text-lg md:text-xl text-gray-300 leading-relaxed">
                 Transform your business with <span className="text-purple-400 font-bold">proven strategies</span> that generated 
                 <span className="text-green-400 font-bold"> 300% ROI</span> for 200+ Kuwait companies
               </p>
@@ -52,7 +52,7 @@ const EnhancedHero: React.FC = () => {
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-animate-reveal" style={{ "--animation-delay": "0.8s" } as React.CSSProperties}>
               <Link
                 href="#contact"
-                className="group btn-magnetic btn-pulse px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-purple-500/50 border border-purple-500 focus-enhanced"
+                className="group btn-primary btn-magnetic btn-pulse text-lg focus-enhanced"
               >
                 <span className="flex items-center justify-center">
                   🚀 Book FREE Strategic Session
@@ -65,7 +65,7 @@ const EnhancedHero: React.FC = () => {
                 href="https://wa.me/96560672773?text=Hi Ahmed, I need urgent strategic consultation for my business"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group btn-magnetic px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-green-500/50 focus-enhanced"
+                className="group btn-whatsapp btn-magnetic text-lg focus-enhanced"
               >
                 <span className="flex items-center justify-center">
                   💬 WhatsApp Instant Response
@@ -147,46 +147,25 @@ const EnhancedHero: React.FC = () => {
             <h3 className="text-2xl font-bold text-white mb-4 text-center">
               🛡️ 100% Risk-Free Guarantee
             </h3>
-            <div className="grid md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">✓</span>
-                <span className="text-gray-300">Money-back if no results in 90 days</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-start space-x-3 mb-2">
+                <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
+                <span className="text-gray-300 leading-relaxed">Money-back if no results in 90 days</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">✓</span>
-                <span className="text-gray-300">Free strategy audit included</span>
+              <div className="flex items-start space-x-3 mb-2">
+                <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
+                <span className="text-gray-300 leading-relaxed">Free strategy audit included</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">✓</span>
-                <span className="text-gray-300">Cancel anytime, no questions asked</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* URGENCY COUNTDOWN */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center space-x-4 bg-red-600/20 backdrop-blur border border-red-400/30 rounded-full px-6 py-3">
-            <span className="text-red-300 font-bold">⏰ Strategic Sessions Filling Fast:</span>
-            <div className="flex space-x-4 text-sm">
-              <div className="text-center">
-                <div className="text-red-400 font-bold">3</div>
-                <div className="text-red-300 text-xs">Slots Left</div>
-              </div>
-              <div className="text-center">
-                <div className="text-yellow-400 font-bold">48h</div>
-                <div className="text-yellow-300 text-xs">Avg Response</div>
-              </div>
-              <div className="text-center">
-                <div className="text-green-400 font-bold">90%</div>
-                <div className="text-green-300 text-xs">Book Rate</div>
+              <div className="flex items-start space-x-3 mb-2">
+                <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
+                <span className="text-gray-300 leading-relaxed">Cancel anytime, no questions asked</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* SCROLL INDICATOR */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
           <div className="flex flex-col items-center space-y-2 animate-bounce">
             <span className="text-purple-400 text-sm font-medium">See Success Stories</span>
             <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
